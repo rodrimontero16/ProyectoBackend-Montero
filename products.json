@@ -1,0 +1,22 @@
+[
+	{
+		"id": "8ea3b1c1-c07b-4296-ba0e-d714a9e336f3",
+		"status": true,
+		"title": "Pantalon",
+		"description": "Color azul",
+		"price": 8000,
+		"code": 2000,
+		"stock": 50,
+		"thumbnails": []
+	},
+	{
+		"id": "51d908d0-498f-41c4-b0d8-925c1efc0135",
+		"status": true,
+		"title": "Campera",
+		"description": "Color azul",
+		"price": 20000,
+		"code": 3000,
+		"stock": 10,
+		"thumbnails": []
+	}
+]
