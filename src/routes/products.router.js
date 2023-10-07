@@ -46,9 +46,9 @@ router.get('/products/:pid', (req, res) =>{
         const product = products.find((prod) => prod.id === pid);
 
         if(!product){
-            res.send('Producto no encontrado');
+            res.status(404).send('Producto no encontrado');
         } else {
-            res.json(product)
+            res.status(200).json(product)
         }
     })
 })
