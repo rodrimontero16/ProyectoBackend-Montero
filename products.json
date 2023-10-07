@@ -18,5 +18,25 @@
 		"code": 3000,
 		"stock": 10,
 		"thumbnails": []
+	},
+	{
+		"id": "9cd111d2-8fa6-495a-9674-d602d6bb71e3",
+		"status": true,
+		"title": "Zapatillas",
+		"description": "Color blancas",
+		"price": 15000,
+		"code": 5000,
+		"stock": 20,
+		"thumbnails": []
+	},
+	{
+		"id": "105f51ff-d3c2-445e-9099-64b2cd507608",
+		"status": true,
+		"title": "Buzo",
+		"description": "Color verde",
+		"price": 12000,
+		"code": 6000,
+		"stock": 20,
+		"thumbnails": []
 	}
 ]

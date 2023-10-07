@@ -5,6 +5,7 @@ import fs from 'fs';
 
 const router = Router();
 
+
 //Obtengo todos los productos ✔️
 router.get('/products', (req, res) => {
     fs.readFile('./products.json', 'utf8', (err, data) => {
@@ -90,7 +91,7 @@ router.post('/products', (req, res) => {
                     return;
                 }
             });
-            res.status(201).json(newProduct)
+            res.status(201).send('Producto agregado correctamente')
 
         } catch (error) {
             res.status(500).send('Error interno del servidor')
@@ -167,6 +168,6 @@ router.delete('/products/:pid', (req, res) => {
         }
     })
 
-})
+});
 
 export default router;
