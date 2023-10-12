@@ -1,26 +1,39 @@
+//Logic general
 import express from 'express';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import handlebars from 'express-handlebars';
+
+//Utils
+import { __dirname } from './utils.js'
+
+//Routes
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
+import indexRouter from './routes/index.router.js'
+import realTimeRouter from './routes/realtime.router.js'
 
-const PORT = 8080;
+//Logic express
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/static', express.static(path.join(__dirname, '../public')));
 
-//Al iniciar me inicia en mi index.html
-app.get('/', (req, res) =>{
-    res.sendFile(path.join(__dirname, '../public/index.html'))
-})
+//Logic public
+app.use(express.static(path.join(__dirname, '../public')));
 
+//Logic handlebars
+app.engine('handlebars', handlebars.engine());
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'handlebars');
+app.use('/', indexRouter, realTimeRouter);
+
+//Routes products y carts
 app.use('/api', productsRouter, cartsRouter);
 
-
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+//Middlewares error
+app.use((error, req, res, next) => {
+    const message = `😨 Ah ocurrido un error desconocido: ${error.message}`;
+    console.log(message);
+    res.status(500).json({ status: 'error', message });
 });
+
+export default app;

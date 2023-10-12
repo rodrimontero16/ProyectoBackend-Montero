@@ -5,7 +5,7 @@
 		"title": "Pantalon",
 		"description": "Color azul",
 		"price": 8000,
-		"code": 2000,
+		"code": 1,
 		"stock": 50,
 		"thumbnails": []
 	},
@@ -15,7 +15,7 @@
 		"title": "Campera",
 		"description": "Color azul",
 		"price": 20000,
-		"code": 3000,
+		"code": 2,
 		"stock": 10,
 		"thumbnails": []
 	},
@@ -25,7 +25,7 @@
 		"title": "Zapatillas",
 		"description": "Color blancas",
 		"price": 15000,
-		"code": 5000,
+		"code": 3,
 		"stock": 20,
 		"thumbnails": []
 	},
@@ -35,7 +35,7 @@
 		"title": "Buzo",
 		"description": "Color verde",
 		"price": 12000,
-		"code": 6000,
+		"code": 4,
 		"stock": 20,
 		"thumbnails": []
 	}
