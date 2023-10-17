@@ -1,42 +1,122 @@
 [
 	{
-		"id": "8ea3b1c1-c07b-4296-ba0e-d714a9e336f3",
+		"id": "6e54e620-2427-41c7-988e-5b18460b4f2c",
 		"status": true,
-		"title": "Pantalon",
-		"description": "Color azul",
-		"price": 8000,
-		"code": 1,
-		"stock": 50,
-		"thumbnails": []
-	},
-	{
-		"id": "51d908d0-498f-41c4-b0d8-925c1efc0135",
-		"status": true,
-		"title": "Campera",
-		"description": "Color azul",
-		"price": 20000,
-		"code": 2,
-		"stock": 10,
-		"thumbnails": []
-	},
-	{
-		"id": "9cd111d2-8fa6-495a-9674-d602d6bb71e3",
-		"status": true,
-		"title": "Zapatillas",
-		"description": "Color blancas",
-		"price": 15000,
-		"code": 3,
-		"stock": 20,
-		"thumbnails": []
-	},
-	{
-		"id": "105f51ff-d3c2-445e-9099-64b2cd507608",
-		"status": true,
+		"thumbnails": [],
 		"title": "Buzo",
+		"description": "Color azul",
+		"code": "9566",
+		"price": 14200,
+		"stock": 4
+	},
+	{
+		"id": "666c7bb7-674f-4d2d-b493-f46fa288743b",
+		"status": true,
+		"thumbnails": [],
+		"title": "Pantalon",
+		"description": "Color rojo",
+		"code": "8633",
+		"price": 8500,
+		"stock": 4
+	},
+	{
+		"id": "18b95441-7365-4c33-a219-57d411d81df9",
+		"status": true,
+		"thumbnails": [],
+		"title": "Remera",
+		"description": "Color blanca",
+		"code": "8363",
+		"price": 4500,
+		"stock": 8
+	},
+	{
+		"id": "97e65cbc-8d5b-4b98-a49c-b86f15af8bf3",
+		"status": true,
+		"thumbnails": [],
+		"title": "Piluso",
 		"description": "Color verde",
+		"code": "0412",
+		"price": 4000,
+		"stock": 10
+	},
+	{
+		"id": "d6391598-c648-4391-9e74-a9da671d52d8",
+		"status": true,
+		"thumbnails": [],
+		"title": "Campera",
+		"description": "Color negra",
+		"code": "8463",
+		"price": 15000,
+		"stock": 5
+	},
+	{
+		"id": "f113aa32-1879-4668-a085-c07650458f96",
+		"status": true,
+		"thumbnails": [],
+		"title": "Camiseta",
+		"description": "Color blanca",
+		"code": "5233",
+		"price": 8500,
+		"stock": 10
+	},
+	{
+		"id": "43451c58-d51b-4163-8292-6405d5e90e44",
+		"status": true,
+		"thumbnails": [],
+		"title": "Chaleco",
+		"description": "Color marron",
+		"code": "8796",
+		"price": 14200,
+		"stock": 5
+	},
+	{
+		"id": "c04d0acd-f791-4e28-803c-68b886ac1fe8",
+		"status": true,
+		"thumbnails": [],
+		"title": "Jean",
+		"description": "Color azul",
+		"code": "1233",
+		"price": 12500,
+		"stock": 5
+	},
+	{
+		"id": "87ceb404-3f17-4433-b132-aba6bbaa01d8",
+		"status": true,
+		"thumbnails": [],
+		"title": "Remera",
+		"description": "Color roja",
+		"code": "6311",
+		"price": 12500,
+		"stock": 5
+	},
+	{
+		"id": "793734f3-636c-44d3-9ced-7077f2d18cd5",
+		"status": true,
+		"thumbnails": [],
+		"title": "Campera",
+		"description": "Color marron",
+		"code": "3155",
+		"price": 12500,
+		"stock": 5
+	},
+	{
+		"id": "1323cf70-570e-4645-a22e-51ed8ccaa66e",
+		"status": true,
+		"thumbnails": [],
+		"title": "Pantalon",
+		"description": "Color negro",
+		"code": "4311",
 		"price": 12000,
-		"code": 4,
-		"stock": 20,
-		"thumbnails": []
+		"stock": 5
+	},
+	{
+		"id": "590f35f6-fb1e-4f70-b06f-4db62816f1de",
+		"status": true,
+		"thumbnails": [],
+		"title": "Remera",
+		"description": "Color amarilla",
+		"code": "3111",
+		"price": 6500,
+		"stock": 5
 	}
 ]

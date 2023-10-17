@@ -7,10 +7,8 @@ import handlebars from 'express-handlebars';
 import { __dirname } from './utils.js'
 
 //Routes
-import productsRouter from './routes/products.router.js';
-import cartsRouter from './routes/carts.router.js';
-import indexRouter from './routes/index.router.js'
-import realTimeRouter from './routes/realtime.router.js'
+import productsRouter from './routers/products.router.js';
+import cartsRouter from './routers/carts.router.js';
 
 //Logic express
 const app = express();
@@ -21,13 +19,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 //Logic handlebars
-app.engine('handlebars', handlebars.engine());
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'handlebars');
-app.use('/', indexRouter, realTimeRouter);
+app.engine('handlebars', handlebars.engine()); //motor que uso  
+app.set('views', path.join(__dirname, 'views')); //Ruta de las plantillas
+app.set('view engine', 'handlebars'); //Extension de las vistas
 
-//Routes products y carts
-app.use('/api', productsRouter, cartsRouter);
+//Routers
+app.use('/', productsRouter, cartsRouter);
 
 //Middlewares error
 app.use((error, req, res, next) => {

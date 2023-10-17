@@ -6,8 +6,8 @@ import fs from 'fs';
 const router = Router();
 
 
-//Obtengo todos los productos ✔️
-router.get('/products', (req, res) => {
+//Obtengo todos los productos y los muestro en el index ✔️
+router.get('/', (req, res) => {
     fs.readFile('./products.json', 'utf8', (err, data) => {
         if (err) {
             console.error('Error al leer el archivo products.json:', err);
@@ -19,12 +19,21 @@ router.get('/products', (req, res) => {
             const products = JSON.parse(data);
             const limitProducts = products.slice(0, limit);
             if(limit > 0){
-                res.json(limitProducts);
+                res.render('index', {
+                    limitProducts,
+                    style: 'index.css',
+                    titlePage: 'Home'
+            })
             } else if (limit < 0){
                 res.send('Limite invalido')
-            } else{
-                res.json(products)
-            };
+            } else {
+                res.render('index', {
+                    products,
+                    style: 'index.css',
+                    titlePage: 'Home'
+            })
+            ;
+            }
         } catch (error) {
             console.error('Error al analizar el archivo JSON:', error);
             res.status(500).json({ error: 'Error interno del servidor' });
@@ -57,7 +66,7 @@ router.get('/products/:pid', (req, res) =>{
 //Agregar productos ✔️
 router.post('/products', (req, res) => {
     const { body } = req;
-    if(!body.title || !body.description || !body.price || !body.thumbnails || !body.code || !body.stock){
+    if(!body.title || !body.description || !body.price || !body.code || !body.stock){
         res.status(400).send('Todos los campos son obligatorios');
         return;
     }
@@ -72,6 +81,7 @@ router.post('/products', (req, res) => {
             const newProduct = { 
                 id:uuidv4(),
                 status: true,
+                thumbnails: [],
                 ...body
                 };
             
@@ -168,6 +178,30 @@ router.delete('/products/:pid', (req, res) => {
         }
     })
 
+});
+
+
+//Productos en realTime ✔️
+router.get('/realtimeproducts', (req, res) =>{
+    fs.readFile('./products.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error al leer el archivo products.json:', err);
+            res.status(500).json({ error: 'Error interno del servidor' });
+            return;
+        }
+        try {
+            const products = JSON.parse(data);
+
+            res.render('realTimeProducts', {
+                products,
+                style: 'realtime.css',
+                titlePage: 'Configurar productos'
+            })
+        } catch (error) {
+            console.error('Error al analizar el archivo JSON:', error);
+            res.status(500).json({ error: 'Error interno del servidor' });
+        }
+    });
 });
 
 export default router;

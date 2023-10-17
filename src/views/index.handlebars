@@ -1,5 +1,8 @@
 <div class="container">
     <h1 class="homeTitle">Bienvenidos 🙌</h1>
+    <a href="/realtimeproducts">
+        <button>Productos en tiempo real</button>
+    </a>
     <div class="tableProds">
         <h3>Lista de productos:</h3>
         <table class="table">
@@ -13,15 +16,27 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each products}}
-                    <tr>
-                        <th scope="row">{{id}}</th>
-                        <td>{{title}}</td>
-                        <td>{{description}}</td>
-                        <td>${{price}}</td>
-                        <td>{{code}}</td>
-                    </tr>
-                {{/each}}
+                {{#if products}}    
+                    {{#each products}}
+                        <tr>
+                            <th scope="row">{{id}}</th>
+                            <td>{{title}}</td>
+                            <td>{{description}}</td>
+                            <td>${{price}}</td>
+                            <td>{{code}}</td>
+                        </tr>
+                    {{/each}}
+                {{else}}
+                    {{#each limitProducts}}
+                        <tr>
+                            <th scope="row">{{id}}</th>
+                            <td>{{title}}</td>
+                            <td>{{description}}</td>
+                            <td>${{price}}</td>
+                            <td>{{code}}</td>
+                        </tr>
+                    {{/each}}
+                {{/if}}
             </tbody>
         </table>
     </div>
