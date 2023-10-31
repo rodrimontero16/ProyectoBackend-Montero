@@ -1,5 +1,8 @@
 import app from './app.js';
 import { init } from './socket.js'
+import { initDB } from './db/mongodb.js'
+
+await initDB();
 
 const PORT = 8080;
 

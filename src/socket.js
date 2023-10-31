@@ -37,7 +37,7 @@ export const init = (httpServer) => {
                 };
             if(products.some((prod) => prod.code === newProduct.code )){
                 console.log(`El producto con code: ${newProduct.code} ya existe`);
-                io.emit('prod-existente');
+                socketClient.emit('prod-existente');
                 return;
             } else {
                 products.push(newProduct);
@@ -47,7 +47,7 @@ export const init = (httpServer) => {
                         socketClient.emit('error', 'Error interno del servidor');
                         return;
                     } else {
-                        io.emit('add-prod', { products });
+                        socketClient.emit('add-prod', { products });
                     }
                 });
             };
@@ -56,7 +56,7 @@ export const init = (httpServer) => {
         socketClient.on('delete-prod', (prodId) => {
             const productIndex = products.findIndex((prod) => prod.id === prodId);
             if (productIndex === -1){
-                io.emit('prod-no-encontrado');
+                socketClient.emit('prod-no-encontrado');
             } else {
                 products.splice(productIndex,1);
                 fs.writeFile(productsFilePath, JSON.stringify(products, null, '\t'), 'utf-8', (err) => {
@@ -65,7 +65,7 @@ export const init = (httpServer) => {
                         socketClient.emit('error', 'Error interno del servidor');
                         return;
                     } else {
-                        io.emit('prod-delete', products );
+                        socketClient.emit('prod-delete', products );
                     }
                 });
             }
