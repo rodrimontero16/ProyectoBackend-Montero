@@ -110,7 +110,7 @@ export default router;
 
 
 
-
+//ROUTES CON FILESYSTEM
 //Obtengo productos por su id ✔️
 // router.get('/products/:pid', (req, res) =>{
 //     const { pid } = req.params;
