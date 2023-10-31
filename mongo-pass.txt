@@ -1,4 +1,0 @@
-user : rodrimontero16
-pass : qJ8NfXF5BJ39IrO9
-
-mongodb+srv://rodrimontero16:qJ8NfXF5BJ39IrO9@cluster0.fbmsttx.mongodb.net/
