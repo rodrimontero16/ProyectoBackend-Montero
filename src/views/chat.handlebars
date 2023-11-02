@@ -1,0 +1,16 @@
+<div class="chatMongo">
+    <h1>Chat</h1>
+    <div id="chat-messages">
+        <h3>Mensajes 📨</h3>
+        {{#if messages}} 
+            {{#each messages}}
+                <p><strong>{{user}}:</strong> {{message}}</p>
+            {{/each}}
+        {{/if}}
+    </div>
+    <form id="chat-form" method="post">
+        <input type="text" name="user" placeholder="Tu correo" required>
+        <input type="text" name="message" placeholder="Escribe un mensaje" required>            
+        <button type="submit">Enviar</button>
+    </form>
+</div>

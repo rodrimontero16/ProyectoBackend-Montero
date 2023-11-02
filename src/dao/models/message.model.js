@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const messageSchema = new Schema({
-    email: { type: String, require: true },
+    user: { type: String, require: true },
     message: { type: String, require: true }
 }, { timestamps: true });
 
