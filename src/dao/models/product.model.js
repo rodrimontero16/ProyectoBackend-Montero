@@ -10,4 +10,4 @@ const productSchema = new Schema({
     status: { type: Boolean, default: true, enum: [true, false] }
 }, { timestamps: true });
 
-export default mongoose.model('Product', productSchema); //este es el modelo que usamos para despues agregar a la collection
+export default mongoose.model('Product', productSchema);

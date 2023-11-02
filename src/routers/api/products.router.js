@@ -1,6 +1,6 @@
 import { Router } from "express";
 import fs from 'fs';
-import ProductModel from '../models/product.model.js'
+import ProductManager from "../../dao/ProductManager.js";
 
 const router = Router();
 
@@ -42,42 +42,49 @@ router.get('/', (req, res) => {
 
 //Obtengo products con mongo
 router.get('/products', async (req, res) => {
-    const products = await ProductModel.find();
+    const products = await ProductManager.get();
     res.status(200).json(products);
-});
-
-//Agrego products con mongo
-router.post('/products', async(req, res) => {
-    const { body } = req;
-    const product = await ProductModel.create(body);
-    res.status(201).json(product);
 });
 
 //Obtengo products por id con mongo
 router.get('/products/:pid', async (req, res) => {
-    const { pid } = req.params;
-    const product = await ProductModel.findById(pid);
-    
-    if(!product){
-        return res.status(404).json({ message: 'product id not found'});
-    };
+    try {
+        const { pid } = req.params;
+        const product = await ProductManager.getById(pid);
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message });
+    }    
+});
 
-    res.status(200).json(product);
+//Agrego products con mongo
+router.post('/products', async (req, res) => {
+    const { body } = req;
+    const newProduct = {...body}
+    const product = await ProductManager.create(newProduct);
+    res.status(201).json(product);
 });
 
 //Actualizar product con mongo
-router.put('/products/:pid', async(req, res) => {
-    const { pid } = req.params;
-    const { body } = req;
-    await ProductModel.updateOne({ _id: pid }, { $set : body });
-    res.status(204).end();
+router.put('/products/:pid', async (req, res) => {
+    try {
+        const { params: { pid }, body } = req;
+        await ProductManager.updateById(pid, body);
+        res.status(204).end();
+    } catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message });
+    }
 });
 
 //Eliminar product con mongo
-router.delete('/products/:pid', async(req, res) => {
-    const { pid } = req.params;
-    await ProductModel.deleteOne({ _id: pid });
-    res.status(204).end();
+router.delete('/products/:pid', async (req, res) => {
+    try {
+        const { pid } = req.params;
+        await ProductManager.deleteById(pid);
+        res.status(204).end();
+    } catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message });
+    }
 });
 
 //Productos en realTime ✔️
