@@ -110,11 +110,7 @@ router.get('/realtimeproducts', (req, res) =>{
     });
 });
 
-
 export default router;
-
-
-
 
 
 //ROUTES CON FILESYSTEM
