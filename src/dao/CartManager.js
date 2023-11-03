@@ -9,7 +9,7 @@ export default class CartManager {
     };
 
     static async getById(cid){
-        const cart = await cartModel.findById(cid)
+        const cart = await cartModel.findById(cid).populate('products.product').exec();
         if (!cart){
             throw new Exception('El carrito no existe ❌', 404);
         }
@@ -31,7 +31,7 @@ export default class CartManager {
             if (existingProduct) {
                 existingProduct.quantity += 1;
             } else {
-                cart.products.push({ product: pid, quantity: 1 });
+                cart.products.push({ product, quantity: 1 });
             }
             await cart.save();
             return cart;
