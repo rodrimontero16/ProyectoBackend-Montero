@@ -5,19 +5,31 @@
     <a href="/api/realtimeproducts">
         <button>Ir a Products Manager</button>
     </a>
+    <a href="/api/cart">
+        <button>Carrito</button>
+    </a>
     <h1 class="homeTitle">Lista de productos en MongoDB 🙌</h1>
     <div class="prod-container">
-        {{#if products}}    
-            {{#each products}}
+        {{#if payload}}    
+            {{#each payload}}
                 <div class="card">
                     <img src="/img/x.png" alt="imagen-prod">
-                    <div class="name">{{title}}</div>
-                    <div class="description">{{description}}</div>
-                    <div class="price">${{price}}</div>
+                    <div class="name">{{this.title}}</div>
+                    <div class="description">{{this.description}}</div>
+                    <div class="price">${{this.price}}</div>
                     <button class="add-to-cart">Añadir</button>
                 </div>
             {{/each}}
         {{/if}}
+    </div>
+    <div class="navegationPage">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="{{this.prevLink}}" role="button" {{#unless hasPrevPage}}disabled{{/unless}}>Previous</a></li>
+                <li class="page-item">{{this.page}}</li>
+                <li class="page-item"><a class="page-link" href="{{this.nextLink}}" role="button" {{#unless hasNextPage}}disabled{{/unless}}>Next</a></li>
+            </ul>   
+        </nav>
     </div>
 </div>
 <script src="/js/products.js"></script>

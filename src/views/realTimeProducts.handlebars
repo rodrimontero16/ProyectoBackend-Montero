@@ -17,17 +17,26 @@
                 </tr>
             </thead>
             <tbody id="tableRealTime">
-                {{#each products}}
-                    <tr data-product-id="{{_id}}">
-                        <th scope="row">{{_id}}</th>
-                        <td>{{title}}</td>
-                        <td>{{description}}</td>
-                        <td>${{price}}</td>
-                        <td>{{code}}</td>
+                {{#each payload}}
+                    <tr data-product-id="{{this._id}}">
+                        <th scope="row">{{this._id}}</th>
+                        <td>{{this.title}}</td>
+                        <td>{{this.description}}</td>
+                        <td>${{this.price}}</td>
+                        <td>{{this.code}}</td>
                     </tr>
                 {{/each}}
             </tbody>
         </table>
+        <div class="navegationPage">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="{{this.prevLink}}" role="button" {{#unless hasPrevPage}}disabled{{/unless}}>Previous</a></li>
+                <li class="page-item">{{this.page}}</li>
+                <li class="page-item"><a class="page-link" href="{{this.nextLink}}" role="button" {{#unless hasNextPage}}disabled{{/unless}}>Next</a></li>
+            </ul>   
+        </nav>
+    </div>
 </div>
 <div class="addProduct">
     <h3>➕ Agregar producto:</h3>
@@ -38,6 +47,17 @@
         <input required class="prod-info" type="number" name="price" placeholder="Precio">
         <input required class="prod-info" type="number" name="stock" placeholder="Stock">
         <input required type="submit" value="Enviar">
+    </form>
+</div>
+<div class="updateProduct">
+    <h3>🖊️ Editar producto:</h3>
+    <form id="updateProductForm">
+        <input required ="prod-info" type="text" name="id" placeholder="ID">
+        <input class="prod-info" type="text" name="title" placeholder="Titulo">
+        <input class="prod-info" type="text" name="description" placeholder="Descripcion">
+        <input class="prod-info" type="number" name="price" placeholder="Precio">
+        <input class="prod-info" type="number" name="stock" placeholder="Stock">
+        <input type="submit" value="Enviar">
     </form>
 </div>
 <div class="deleteProducts">

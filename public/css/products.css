@@ -43,3 +43,10 @@ font-size: medium;
 align-self: center;
 margin-top: auto;
 }
+
+.navegationPage{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}

@@ -1,6 +1,7 @@
 import { Router } from "express";
-import fs from 'fs';
 import ProductManager from "../../dao/ProductManager.js";
+import { buildResponse } from "../views/products.router.js";
+
 
 const router = Router();
 
@@ -56,13 +57,12 @@ router.delete('/products/:pid', async (req, res) => {
 
 //Productos en realTime ✔️
 router.get('/realtimeproducts', async (req, res) =>{
-    const products = await ProductManager.get();
+    const { page = 1, limit = 10 } = req.query;
+    const options = { page, limit };
+    const criteria = {};
+    const products = await ProductManager.paginate(criteria, options);
     try {
-        res.render('realTimeProducts', {
-            products: products.map(p => p.toJSON()),
-            style: 'realtime.css',
-            titlePage: 'Configurar productos'
-        })
+        res.render('realTimeProducts', buildResponse(products, 'Configuracion', 'realtime.css', 'api/realtimeproducts'))
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }

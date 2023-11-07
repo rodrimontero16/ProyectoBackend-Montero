@@ -44,4 +44,8 @@ export default class ProductManager {
         await productModel.deleteOne(criteria);
         console.log('Producto eliminado correctamente ✔️');
     };
+
+    static async paginate(criteria, options) {
+        return await productModel.paginate(criteria, options);
+    }
 };

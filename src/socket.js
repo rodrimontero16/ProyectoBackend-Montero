@@ -31,8 +31,7 @@ export const init = (httpServer) => {
                         socketClient.emit('add-prod', products);
                     };
                 } catch (error) {
-                    console.error('Error al verificar el producto');
-                    socketClient.emit('error', { message: 'Error al procesar la solicitud' });
+                    console.error('Error al verificar el producto', error.message);
                 }
         });
 
