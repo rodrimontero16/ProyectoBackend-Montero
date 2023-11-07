@@ -3,6 +3,7 @@ import express from 'express';
 import path from 'path';
 import handlebars from 'express-handlebars';
 
+
 //Utils
 import { __dirname } from './utils.js'
 
@@ -10,7 +11,6 @@ import { __dirname } from './utils.js'
 import productsApiRouter from './routers/api/products.router.js';
 import cartsApiRouter from './routers/api/carts.router.js';
 import productsViewsRouter from './routers/views/products.router.js';
-import chatRouter from './routers/api/chat.router.js'
 
 //Logic express
 const app = express();
@@ -28,7 +28,7 @@ app.set('view engine', 'handlebars'); //Extension de las vistas
 //Routers api
 app.use('/api', productsApiRouter, cartsApiRouter);
 //Routers views
-app.use('/', productsViewsRouter, chatRouter);
+app.use('/', productsViewsRouter);
 
 
 //Middlewares error

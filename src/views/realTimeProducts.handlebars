@@ -2,6 +2,9 @@
     <a href="/">
         <button>Home</button>
     </a>
+    <a href="/products">
+        <button>Productos</button>
+    </a>
     <h2 class="realTimeTitle">Productos en tiempo real ⏳</h2>
         <table class="table">
             <thead>
@@ -15,8 +18,8 @@
             </thead>
             <tbody id="tableRealTime">
                 {{#each products}}
-                    <tr data-product-id="{{id}}">
-                        <th scope="row">{{id}}</th>
+                    <tr data-product-id="{{_id}}">
+                        <th scope="row">{{_id}}</th>
                         <td>{{title}}</td>
                         <td>{{description}}</td>
                         <td>${{price}}</td>

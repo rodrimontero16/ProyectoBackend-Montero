@@ -5,48 +5,14 @@ import ProductManager from "../../dao/ProductManager.js";
 const router = Router();
 
 
-//Obtengo todos los productos y los muestro en el index ✔️
-router.get('/', (req, res) => {
-    fs.readFile('./products.json', 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error al leer el archivo products.json:', err);
-            res.status(500).json({ error: 'Error interno del servidor' });
-            return;
-        }
-        const { limit } = req.query;
-        try {
-            const products = JSON.parse(data);
-            const limitProducts = products.slice(0, limit);
-            if(limit > 0){
-                res.render('index', {
-                    limitProducts,
-                    style: 'index.css',
-                    titlePage: 'Home'
-            })
-            } else if (limit < 0){
-                res.send('Limite invalido')
-            } else {
-                res.render('index', {
-                    products,
-                    style: 'index.css',
-                    titlePage: 'Home'
-            })
-            ;
-            }
-        } catch (error) {
-            console.error('Error al analizar el archivo JSON:', error);
-            res.status(500).json({ error: 'Error interno del servidor' });
-        }
-    });
-});
 
-//Obtengo products con mongo
+//Obtengo products
 router.get('/products', async (req, res) => {
     const products = await ProductManager.get();
     res.status(200).json(products);
 });
 
-//Obtengo products por id con mongo
+//Obtengo products por id 
 router.get('/products/:pid', async (req, res) => {
     try {
         const { pid } = req.params;
@@ -57,7 +23,7 @@ router.get('/products/:pid', async (req, res) => {
     }    
 });
 
-//Agrego products con mongo
+//Agrego products 
 router.post('/products', async (req, res) => {
     const { body } = req;
     const newProduct = {...body}
@@ -65,7 +31,7 @@ router.post('/products', async (req, res) => {
     res.status(201).json(product);
 });
 
-//Actualizar product con mongo
+//Actualizar product 
 router.put('/products/:pid', async (req, res) => {
     try {
         const { params: { pid }, body } = req;
@@ -76,7 +42,7 @@ router.put('/products/:pid', async (req, res) => {
     }
 });
 
-//Eliminar product con mongo
+//Eliminar product 
 router.delete('/products/:pid', async (req, res) => {
     try {
         const { pid } = req.params;
@@ -87,27 +53,19 @@ router.delete('/products/:pid', async (req, res) => {
     }
 });
 
-//Productos en realTime ✔️
-router.get('/realtimeproducts', (req, res) =>{
-    fs.readFile('./products.json', 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error al leer el archivo products.json:', err);
-            res.status(500).json({ error: 'Error interno del servidor' });
-            return;
-        }
-        try {
-            const products = JSON.parse(data);
 
-            res.render('realTimeProducts', {
-                products,
-                style: 'realtime.css',
-                titlePage: 'Configurar productos'
-            })
-        } catch (error) {
-            console.error('Error al analizar el archivo JSON:', error);
-            res.status(500).json({ error: 'Error interno del servidor' });
-        }
-    });
+//Productos en realTime ✔️
+router.get('/realtimeproducts', async (req, res) =>{
+    const products = await ProductManager.get();
+    try {
+        res.render('realTimeProducts', {
+            products: products.map(p => p.toJSON()),
+            style: 'realtime.css',
+            titlePage: 'Configurar productos'
+        })
+    } catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message });
+    }
 });
 
 export default router;
@@ -251,4 +209,27 @@ export default router;
 //         }
 //     })
 
+// });
+
+//Productos en realTime ✔️
+// router.get('/realtimeproducts', (req, res) =>{
+//     fs.readFile('./products.json', 'utf8', (err, data) => {
+//         if (err) {
+//             console.error('Error al leer el archivo products.json:', err);
+//             res.status(500).json({ error: 'Error interno del servidor' });
+//             return;
+//         }
+//         try {
+//             const products = JSON.parse(data);
+
+//             res.render('realTimeProducts', {
+//                 products,
+//                 style: 'realtime.css',
+//                 titlePage: 'Configurar productos'
+//             })
+//         } catch (error) {
+//             console.error('Error al analizar el archivo JSON:', error);
+//             res.status(500).json({ error: 'Error interno del servidor' });
+//         }
+//     });
 // });

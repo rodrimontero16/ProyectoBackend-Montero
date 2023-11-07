@@ -9,20 +9,20 @@
     const deleteProd = document.getElementById('deleteProd');
 
     //Actualizo la tabla de productos
-    const updateProductTable = (products) => {
+    const updateProductTable =  (products) => {
         tableProducts.innerHTML = '';
         products.forEach((product) => {
             const row = document.createElement('tr');
-            row.setAttribute('data-product-id', product.id);
+            row.setAttribute('data-product-id', product._id);
             row.innerHTML = `
-                <th scope="row">${product.id}</th>
+                <th scope="row">${product._id}</th>
                 <td>${product.title}</td>
                 <td>${product.description}</td>
                 <td>$${product.price}</td>
                 <td>${product.code}</td>
             `;
             tableProducts.appendChild(row);
-        });
+        });       
     };
 
     //Envio la info desde el front al backend
@@ -56,7 +56,7 @@
             title: 'El producto ya existe!',
         });
     })
-    socket.on('add-prod', ({ products }) => {
+    socket.on('add-prod', (products) => {
         updateProductTable(products);
         Swal.fire({
             icon: 'success',

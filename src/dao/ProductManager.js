@@ -19,6 +19,10 @@ export default class ProductManager {
         console.log('Producto agregado correctamente ✔️');
         return newProduct;
     };
+    
+    static async findOne(query) {
+        return await productModel.findOne(query);
+    }
 
     static async updateById(pid, data){
         const product = await productModel.findById(pid);

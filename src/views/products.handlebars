@@ -1,29 +1,23 @@
 <div class="container">
+    <a href="/">
+        <button>Home</button>
+    </a>
+    <a href="/api/realtimeproducts">
+        <button>Ir a Products Manager</button>
+    </a>
     <h1 class="homeTitle">Lista de productos en MongoDB 🙌</h1>
-    <div class="tableProds">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Code</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#if products}}    
-                    {{#each products}}
-                        <tr>
-                            <th scope="row">{{_id}}</th>
-                            <td>{{title}}</td>
-                            <td>{{description}}</td>
-                            <td>${{price}}</td>
-                            <td>{{code}}</td>
-                        </tr>
-                    {{/each}}
-                {{/if}}
-            </tbody>
-        </table>
+    <div class="prod-container">
+        {{#if products}}    
+            {{#each products}}
+                <div class="card">
+                    <img src="/img/x.png" alt="imagen-prod">
+                    <div class="name">{{title}}</div>
+                    <div class="description">{{description}}</div>
+                    <div class="price">${{price}}</div>
+                    <button class="add-to-cart">Añadir</button>
+                </div>
+            {{/each}}
+        {{/if}}
     </div>
 </div>
+<script src="/js/products.js"></script>
