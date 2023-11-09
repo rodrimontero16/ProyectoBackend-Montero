@@ -1,6 +1,7 @@
 import { Server } from 'socket.io';
 import { __dirname } from './utils.js';
 import ProductManager from './dao/ProductManager.js';
+import CartManager from './dao/CartManager.js';
 import mongoose from 'mongoose';
 
 let io;
@@ -74,6 +75,10 @@ export const init = (httpServer) => {
             } catch (error) {
                 console.error('Error al filtrar productos por categoría', error.message);
             }
+        });
+        socketClient.on('add-to-cart', async (prodId) => {
+            await CartManager.addProduct('654d2cf1fdc586a57eb6a939', prodId);
+            socketClient.emit('added-to-cart', prodId);
         });
     });
 };

@@ -5,7 +5,7 @@
     const sortPriceViews = document.getElementById('btn-price-views');
     const productsViews = document.getElementById('prod-container');
     const categoryFilter = document.getElementById('category-filter-views');
-
+    const addToCartButtons = document.getElementsByClassName('add-to-cart');
 
     //Manejo del sort para el price
     let sortDirection = 1;
@@ -22,6 +22,14 @@
         socket.emit('filter-by-category', selectedCategory);
     });
     
+    Array.from(addToCartButtons).forEach((button) =>{
+        button.addEventListener('click', () =>{
+            const prodId = button.getAttribute('data-product-id');
+            socket.emit('add-to-cart', prodId);
+            console.log('Producto agregado correctamente');
+        });
+    });
+
     //Actualizo la vista de products
     const updateProductViews = (products) => {
         productsViews.innerHTML = '';
@@ -33,7 +41,7 @@
                 <img src="/img/x.png" alt="img-prod">
                 <h4 class="title-prod">${product.title}</h4>
                 <p class="price-prod">${product.price}</p>
-                <button class="add-to-cart">Añadir</button>
+                <button class="add-to-cart" data-product-id="${product._id}>Añadir</button>
             `
             productsViews.appendChild(div);
         });
@@ -43,6 +51,12 @@
     socket.on('update-products', (products) => {
         updateProductViews(products);
     });
+    socket.on('added-to-cart', (prodId) =>{
+        Swal.fire({
+            icon: 'success',
+            title: 'Producto agregado con éxito 🙌',
+        });
+    })
 })();
 
 
