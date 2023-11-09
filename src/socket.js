@@ -48,7 +48,33 @@ export const init = (httpServer) => {
             } catch (error) {
                 console.error('Error al eliminar el producto', error.message);
             }
-        })
+        });
+
+        socketClient.on('toggle-sort', async (sortDirection) => {
+            try {
+                const sortParam = { price: sortDirection };
+                const sortProducts = await ProductManager.paginate({}, { sort: sortParam });
+                const products = sortProducts.docs;
+                socketClient.emit('update-products', products);
+            } catch (error) {
+                console.error('Error al ordenar productos', error.message);
+            }
+        });
+        socketClient.on('filter-by-category', async (selectedCategory) => {
+            try {
+                const criteria = {};
+                const options = { page:1, limit:6 };
+                if (selectedCategory) {
+                    criteria.category = selectedCategory;
+                }
+                
+                const categoryProducts = await ProductManager.paginate(criteria, options);
+                const products = categoryProducts.docs;
+                socketClient.emit('update-products', products);
+            } catch (error) {
+                console.error('Error al filtrar productos por categoría', error.message);
+            }
+        });
     });
 };
 

@@ -1,4 +1,4 @@
-.prod-container{
+.prodContainer{
     display: grid;
     grid-template-columns: auto auto auto ;
     margin: 20px 0px;
@@ -49,4 +49,15 @@ margin-top: auto;
     flex-direction: column;
     width: 100%;
     align-items: center;
+}
+.page-link{
+    border: none;
+    font-size: 30px;
+}
+.filter-prod{
+    width: 50%;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 }

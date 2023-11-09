@@ -57,12 +57,18 @@ router.delete('/products/:pid', async (req, res) => {
 
 //Productos en realTime ✔️
 router.get('/realtimeproducts', async (req, res) =>{
-    const { page = 1, limit = 10 } = req.query;
-    const options = { page, limit };
-    const criteria = {};
-    const products = await ProductManager.paginate(criteria, options);
     try {
-        res.render('realTimeProducts', buildResponse(products, 'Configuracion', 'realtime.css', 'api/realtimeproducts'))
+        const { page = 1, limit = 10, category, sort } = req.query;
+        const options = { page, limit };
+        if (sort) {
+            options.sort = { price: sort || 1 };
+        }
+        const criteria = {};
+        if (category) {
+            criteria.category = category;
+        }
+        const products = await ProductManager.paginate(criteria, options);
+        res.render('realTimeProducts', buildResponse(products, 'Configuracion', 'realtime.css', 'api/realtimeproducts', category, sort));
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }

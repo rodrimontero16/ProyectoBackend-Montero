@@ -4,6 +4,7 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 const productSchema = new Schema({
     title: { type: String, require: true },
     description: { type: String, require: true },
+    category: { type: String, require: true },
     code: { type: String, require: true, unique: true },
     thumbnails: { type: Array, default: [] },
     price: { type: Number, require: true },

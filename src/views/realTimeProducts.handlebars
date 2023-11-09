@@ -5,15 +5,34 @@
     <a href="/products">
         <button>Productos</button>
     </a>
+    <a href="/carts/654d2cf1fdc586a57eb6a939">
+        <button>Carrito</button>
+    </a>
     <h2 class="realTimeTitle">Productos en tiempo real ⏳</h2>
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Code</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">
+                        <select id="category-filter" class="form-select" aria-label="Default select example">
+                            <option selected >Categoria</option>
+                            <option value="remeras">Remeras</option>
+                            <option value="camisas">Camisas</option>
+                            <option value="buzos">Buzos</option>
+                            <option value="camperas">Camperas</option>
+                            <option value="jeans">Jeans</option>
+                            <option value="bermudas">Bermudas</option>
+                            <option value="joggins">Joggins</option>
+                            <option value="joggers">Joggers</option>
+                            <option value="mallas">Mallas</option>
+                            <option value="accesorios">Accesorios</option>
+                        </select>
+                    </th>
+                    <th scope="col">
+                        <button class="contrast outline btnPrice" title="Ordena los productos por su precio" id="btn-price"><b>Precio</b></button>
+                    </th>
+                    <th scope="col">Codigo</th>
                 </tr>
             </thead>
             <tbody id="tableRealTime">
@@ -21,7 +40,7 @@
                     <tr data-product-id="{{this._id}}">
                         <th scope="row">{{this._id}}</th>
                         <td>{{this.title}}</td>
-                        <td>{{this.description}}</td>
+                        <td>{{this.category}}</td>
                         <td>${{this.price}}</td>
                         <td>{{this.code}}</td>
                     </tr>
@@ -31,9 +50,9 @@
         <div class="navegationPage">
         <nav>
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="{{this.prevLink}}" role="button" {{#unless hasPrevPage}}disabled{{/unless}}>Previous</a></li>
+                <li class="page-item"><a class="page-link contrast outline" href="{{this.prevLink}}" role="button" {{#unless hasPrevPage}}disabled{{/unless}}>⬅️</a></li>
                 <li class="page-item">{{this.page}}</li>
-                <li class="page-item"><a class="page-link" href="{{this.nextLink}}" role="button" {{#unless hasNextPage}}disabled{{/unless}}>Next</a></li>
+                <li class="page-item"><a class="page-link contrast outline" href="{{this.nextLink}}" role="button" {{#unless hasNextPage}}disabled{{/unless}}>➡️</a></li>
             </ul>   
         </nav>
     </div>

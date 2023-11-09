@@ -1,0 +1,38 @@
+<div class="carts-container">
+    <a href="/">
+        <button>Home</button>
+    </a>
+    <a href="/api/realtimeproducts">
+        <button>Ir a Products Manager</button>
+    </a>
+    <a href="/products">
+        <button>Productos</button>
+    </a>
+    <table class="table-carts">
+        <thead>
+            <tr>
+                <th scope="col">Titulo</th>
+                <th scope="col">Precio unitario</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Precio total</th>
+            </tr>
+        </thead>
+        <tbody id="tablaCarts">
+            {{#if products}}  
+                {{#each products}}
+                {{#if @first}}
+                    <h3>
+                        ID Carrito: {{this.cartId}}
+                    </h3>
+                {{/if}} 
+                    <tr data-product-id="{{this._id}}">
+                        <th scope="row">{{this.title}}</th>
+                        <td>${{this.price}}</td>
+                        <td>{{this.quantity}}</td>
+                        <td>${{this.price}}</td>
+                    </tr>
+                {{/each}}
+            {{/if}}
+        </tbody>
+    </table>
+</div>
