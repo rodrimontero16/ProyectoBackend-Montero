@@ -1,14 +1,15 @@
+<nav>
+    <ul>
+        <li><strong>Ecommerce</strong></li>
+    </ul>
+    <ul>
+        <li><a href="/api/carts">CartsManager</a></li>
+        <li><a href="/profile">Perfil ({{user.role}})</a></li>
+        <li><a href="/api/sessions/logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
 <div>
-    <a href="/">
-        <button>Home</button>
-    </a>
-    <a href="/products">
-        <button>Productos</button>
-    </a>
-    <a href="/carts/654d2cf1fdc586a57eb6a939">
-        <button>Carrito</button>
-    </a>
-    <h2 class="realTimeTitle">Productos en tiempo real ⏳</h2>
+    <h2 class="realTimeTitle">ProductsManager</h2>
         <table class="table">
             <thead>
                 <tr>
@@ -88,5 +89,5 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/realTime.js"></script>
+<script src="/js/productsManager.js"></script>
 

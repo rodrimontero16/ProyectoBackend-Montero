@@ -56,7 +56,7 @@ router.delete('/products/:pid', async (req, res) => {
 
 
 //Productos en realTime ✔️
-router.get('/realtimeproducts', async (req, res) =>{
+router.get('/productsmanager', async (req, res) =>{
     try {
         const { page = 1, limit = 10, category, sort } = req.query;
         const options = { page, limit };
@@ -68,7 +68,7 @@ router.get('/realtimeproducts', async (req, res) =>{
             criteria.category = category;
         }
         const products = await ProductManager.paginate(criteria, options);
-        res.render('realTimeProducts', buildResponse(products, 'Configuracion', 'realtime.css', 'api/realtimeproducts', category, sort));
+        res.render('productsManager', buildResponse(products, 'Configuracion', 'realtime.css', 'api/productsmanager', req.session.user, category, sort));
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }

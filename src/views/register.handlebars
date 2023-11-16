@@ -1,0 +1,25 @@
+<nav>
+    <ul>
+        <li><strong>Ecommerce</strong></li>
+    </ul>
+    <ul>
+        <li><a href="/login">Iniciar sesión</a></li>
+    </ul>
+</nav>
+<article>
+    <form action="/api/sessions/register" method="post">
+        <header>
+        <h1>Registro</h1>
+        </header>
+        <input type="text" name="first_name" placeholder="Nombre" required />
+        <input type="text" name="last_name" placeholder="Apellido" required />
+        <input type="email" name="email" placeholder="Correo" required />
+        <input type="number" name="age" placeholder="Edad" required />
+        <input type="password" name="password" minlength="8" placeholder="Contraseña" id="password1" oninput="registerSuccess()" required />
+        <input type="password" minlength="8" placeholder="Repetir contraseña" id="password2" oninput="registerSuccess()" required />
+        <footer>
+        <input type="submit" value="Enviar" id="btn-register" title="">
+        </footer>
+    </form>
+</article>
+<script src="/js/users.js"></script>

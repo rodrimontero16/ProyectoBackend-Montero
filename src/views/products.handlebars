@@ -1,14 +1,17 @@
+<nav>
+    <ul>
+        <li><strong>Ecommerce</strong></li>
+    </ul>
+    <ul>
+        <li><a href="/carts/654d2cf1fdc586a57eb6a939"><button>Carrito</button></a></li>
+        <li><a href="/profile">Perfil</a></li>
+        <li><a href="/api/sessions/logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
 <div class="container">
-    <a href="/">
-        <button>Home</button>
-    </a>
-    <a href="/api/realtimeproducts">
-        <button>Ir a Products Manager</button>
-    </a>
-    <a href="/carts/654d2cf1fdc586a57eb6a939">
-        <button>Carrito</button>
-    </a>
-    <h1 class="homeTitle">Lista de productos en MongoDB 🙌</h1>
+    {{#if user}}
+        <h1 class="homeTitle">Bienvenido/a {{user.first_name}} 🙌</h1>
+    {{/if}}
     <div class="filter-prod">
         <h4>Filtros:</h4>
         <select class="form-select" aria-label="Default select example" id="category-filter-views">

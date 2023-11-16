@@ -1,0 +1,21 @@
+<nav>
+    <ul>
+        <li><strong>Ecommerce</strong></li>
+    </ul>
+    <ul>
+        {{#if (isAdmin user.role)}}
+            <li><a href="/api/productsmanager">Configurar productos</a></li>
+        {{else}}
+            <li><a href="/products">Tienda</a></li>
+        {{/if}}
+        <li><a href="/api/sessions/logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
+<article>
+    <header>
+        <h1>Datos del usuario:</h1>
+    </header>
+    <p>Nombre: {{user.first_name}}</p>
+    <p>Apellido: {{user.last_name}}</p>
+    <p>Correo: {{user.email}}</p>
+</article>

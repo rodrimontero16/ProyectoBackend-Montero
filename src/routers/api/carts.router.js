@@ -14,12 +14,33 @@ router.post('/carts', async (req, res) => {
     }
 });
 
-//Obtener los products de un carts
+//Obtener todos los carritos
+router.get('/carts', async (req, res) =>{
+    try {
+        const cart = await CartManager.get();
+        const carts = cart.map(c => {
+            return {
+                cartID: c._id.toString(),
+                cartLength: c.products.length
+            };
+        })
+        res.render('cartsManager', {carts, titlePage: 'CartsManager', style: 'carts.css', user: req.session.user})
+    } catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message });
+    }
+});
+
+//Obtener los products de un cartsEsto h
 router.get('/carts/:cid', async (req, res) => {
     try {
         const { cid } = req.params;
         const cart = await CartManager.getById(cid);
-        res.status(200).json(cart.products);
+        const cartID = cid; 
+        const products = cart.products.map(e => {
+            return {...e.product._doc, quantity: e.quantity, cartID}
+        })
+        console.log(products);
+        res.render('cartProduct', {products, titlePage: 'Editar carrito', style:'carts.css', user: req.session.user})
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }

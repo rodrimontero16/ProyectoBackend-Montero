@@ -3,11 +3,6 @@ import ProductManager from '../../dao/ProductManager.js';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
-    res.render('index', {style: 'index.css', titlePage: 'Home'
-})
-});
-
 router.get('/products', async (req, res) => {
     try {
         const { page = 1, limit = 6, category, sort } = req.query;
@@ -20,18 +15,20 @@ router.get('/products', async (req, res) => {
             criteria.category = category;
         }
         const products = await ProductManager.paginate(criteria, options);
-        res.render('products', buildResponse(products, 'Productos', 'products.css', 'products', category, sort));
+        res.render('products', buildResponse(products, 'Productos', 'products.css', 'products', req.session.user, category, sort ));
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }
 });
 
-export const buildResponse = (data, titlePage, style, route) => {
+export const buildResponse = (data, titlePage, style, route, user) => {
+    
     return {
     status: 'success',
     payload: data.docs.map(prod => prod.toJSON()),
     titlePage: titlePage,
     style: style,
+    user: user,
     totalPages: data.totalPages,
     prevPage: data.prevPage,
     nextPage: data.nextPage,
@@ -41,7 +38,9 @@ export const buildResponse = (data, titlePage, style, route) => {
     prevLink: data.hasPrevPage ? `http://localhost:8080/${route}?limit=${data.limit}&page=${data.prevPage}${data.category ? `&category=${data.category}` : ''}${data.sort ? `&sort=${data.sort}` : ''}` : '',
     nextLink: data.hasNextPage ? `http://localhost:8080/${route}?limit=${data.limit}&page=${data.nextPage}${data.category ? `&category=${data.category}` : ''}${data.sort ? `&sort=${data.sort}` : ''}` : '',
     };
+    
 };
+
 
 
 export default router;

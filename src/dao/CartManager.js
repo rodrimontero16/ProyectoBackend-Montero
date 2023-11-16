@@ -3,6 +3,10 @@ import productModel from './models/product.model.js';
 import { Exception } from '../utils.js';
 
 export default class CartManager {
+    static async get() {
+        return await cartModel.find();
+    }
+
     static async create(data){
         const newCart = await cartModel.create(data);
         return newCart;
@@ -95,5 +99,14 @@ export default class CartManager {
         cartProduct.quantity = quantity;
         await cart.save();
         return cart;
+    }
+
+    static async deleteById(cid){
+        const cart = await cartModel.findById(cid);
+        if (!cart){
+            throw new Exception('Carrito no encontrado ❌', 404);
+        };
+        const criteria = {_id: cid};
+        await cartModel.deleteOne(criteria);
     }
 };

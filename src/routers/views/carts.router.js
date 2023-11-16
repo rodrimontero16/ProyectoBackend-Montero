@@ -12,7 +12,7 @@ router.get('/carts/:cid', async (req, res) => {
         const products = cart.products.map(e => {
             return {...e.product._doc, quantity: e.quantity, cartId, totalPrice:e.quantity*e.product.price}
         })
-        res.render('carts', {products, titlePage: 'Carrito', style: 'carrito.css'})
+        res.render('carts', {products, titlePage: 'Carrito', style: 'carts.css'})
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }

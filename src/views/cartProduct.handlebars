@@ -1,0 +1,46 @@
+<nav>
+    <ul>
+        <li><strong>Ecommerce</strong></li>
+    </ul>
+    <ul>
+        <li><a href="/api/productsmanager">ProductsManager</a></li>
+        <li><a href="/api/carts">CartsManager</a></li>
+        <li><a href="/profile">Perfil ({{user.role}})</a></li>
+        <li><a href="/api/sessions/logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
+<div>
+        <table class="table table-carts">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Eliminar/Editar</th>
+                </tr>
+            </thead>
+            <tbody id="tableCarts">
+                {{#if products}}  
+                    {{#each products}}
+                    {{#if @first}}
+                        <h3>
+                            ID Carrito: {{this.cartID}}
+                        </h3>
+                    {{/if}} 
+                    <tr data-product-id="{{this._id}}">
+                        <th scope="row">{{this._id}}</th>
+                        <th>{{this.title}}</th>
+                        <td>{{this.quantity}}</td>
+                        <td>
+                            <button>❌</button>
+                            <button>🖋️</button>
+                        </td>
+                    </tr>
+                {{/each}}
+            {{/if}}
+            </tbody>
+        </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/cartsManager.js"></script>

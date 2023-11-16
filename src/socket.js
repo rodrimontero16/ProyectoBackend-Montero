@@ -80,6 +80,23 @@ export const init = (httpServer) => {
             await CartManager.addProduct('654d2cf1fdc586a57eb6a939', prodId);
             socketClient.emit('added-to-cart', prodId);
         });
+
+        socketClient.on('delete-cart', async (cartId) =>{
+            try {
+                await CartManager.deleteById(cartId);
+                const cart = await CartManager.get();
+                const carts = cart.map(c => {
+                    return {
+                        cartID: c._id.toString(),
+                        cartLength: c.products.length
+                    };
+                });
+                console.log(carts);
+                socketClient.emit('cart-delete', carts)
+            } catch (error) {
+                console.error('Error al eliminar el carrito', error.message);
+            }
+        });
     });
 };
 
