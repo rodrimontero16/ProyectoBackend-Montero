@@ -39,7 +39,6 @@ router.get('/carts/:cid', async (req, res) => {
         const products = cart.products.map(e => {
             return {...e.product._doc, quantity: e.quantity, cartID}
         })
-        console.log(products);
         res.render('cartProduct', {products, titlePage: 'Editar carrito', style:'carts.css', user: req.session.user})
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });

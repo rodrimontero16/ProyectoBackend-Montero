@@ -8,7 +8,7 @@ const isAdmin = (role) => {
 
 router.get('/', (req, res) => {
     if (req.session.user && req.session.user.role === 'admin') {
-        return res.redirect('/api/realtimeproducts');
+        return res.redirect('/api/productsmanager');
     } else if (req.session.user && req.session.user.role === 'user') {
         res.redirect('/products');
     } else {
