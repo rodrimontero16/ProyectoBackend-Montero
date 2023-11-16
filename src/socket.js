@@ -96,6 +96,22 @@ export const init = (httpServer) => {
                 console.error('Error al eliminar el carrito', error.message);
             }
         });
+
+        socketClient.on('new-cart', async () =>{
+            try {
+                const newCart = await CartManager.create();
+                const cart = await CartManager.get();
+                const carts = cart.map(c => {
+                    return {
+                        cartID: c._id.toString(),
+                        cartLength: c.products.length
+                    };
+                });
+                socketClient.emit('cart-update', carts)
+            } catch (error) {
+                
+            }
+        })
     });
 };
 

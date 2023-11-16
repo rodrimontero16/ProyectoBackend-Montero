@@ -3,7 +3,7 @@ import { Router } from 'express';
 const router = Router();
 
 const isAdmin = (role) => {
-    return role === 'Admin'
+    return role === 'admin'
 }
 
 router.get('/', (req, res) => {

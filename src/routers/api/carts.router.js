@@ -30,7 +30,7 @@ router.get('/carts', async (req, res) =>{
     }
 });
 
-//Obtener los products de un cartsEsto h
+//Obtener los products de un carts
 router.get('/carts/:cid', async (req, res) => {
     try {
         const { cid } = req.params;

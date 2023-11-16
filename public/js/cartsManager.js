@@ -3,6 +3,7 @@
 
     const deleteCarts = document.getElementsByClassName('delete-cart');
     const tableCarts = document.getElementById('tableCarts');
+    const newCart = document.getElementById('new-cart');
 
 
     //Envio la info desde el front al backend
@@ -14,6 +15,11 @@
             const cartId = deleteButton.id;
             socket.emit('delete-cart', cartId);
         }
+    });
+
+    newCart.addEventListener('click', (event) =>{
+        event.preventDefault();
+        socket.emit('new-cart');
     });
 
     //Actualizo la tabla de carritos
@@ -43,4 +49,12 @@
             title: 'Carrito eliminado correctamente ❌',
         });
     });
+
+    socket.on('cart-update', (carts) =>{
+        updateCartTable(carts);     
+        Swal.fire({
+            icon: 'success',
+            title: 'Carrito creado correctamente ✔️',
+        });
+    })
 })();

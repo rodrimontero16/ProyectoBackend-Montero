@@ -16,10 +16,11 @@
                     <th scope="col">ID</th>
                     <th scope="col">Titulo</th>
                     <th scope="col">Cantidad</th>
+                    <th scope="col">Editar cantidad</th>
                     <th scope="col">Eliminar/Editar</th>
                 </tr>
             </thead>
-            <tbody id="tableCarts">
+            <tbody id="tableProductsCarts">
                 {{#if products}}  
                     {{#each products}}
                     {{#if @first}}
@@ -31,9 +32,12 @@
                         <th scope="row">{{this._id}}</th>
                         <th>{{this.title}}</th>
                         <td>{{this.quantity}}</td>
+                        <td class="edit-quantity">
+                            <input type="number" name="quantity" value="{{this.quantity}}">
+                            <button class="btn-carts">🖋️</button>
+                        </td>
                         <td>
-                            <button>❌</button>
-                            <button>🖋️</button>
+                            <button class="btn-carts delete-prod-cart" id="{{this._id}}">❌</button>
                         </td>
                     </tr>
                 {{/each}}
@@ -43,4 +47,3 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/cartsManager.js"></script>
