@@ -4,6 +4,7 @@
     const deleteCarts = document.getElementsByClassName('delete-cart');
     const tableCarts = document.getElementById('tableCarts');
 
+
     //Envio la info desde el front al backend
     tableCarts.addEventListener('click', (event) => {
         const deleteButton = event.target.closest('.delete-cart');
@@ -12,7 +13,6 @@
             event.preventDefault();
             const cartId = deleteButton.id;
             socket.emit('delete-cart', cartId);
-            console.log(`Estás haciendo clic en el id: ${cartId}`);
         }
     });
 

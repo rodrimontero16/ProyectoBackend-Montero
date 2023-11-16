@@ -91,7 +91,6 @@ export const init = (httpServer) => {
                         cartLength: c.products.length
                     };
                 });
-                console.log(carts);
                 socketClient.emit('cart-delete', carts)
             } catch (error) {
                 console.error('Error al eliminar el carrito', error.message);
