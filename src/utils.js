@@ -1,4 +1,5 @@
 import path from 'path';
+import bcrypt from 'bcrypt';
 import { fileURLToPath } from 'url';
 
 //Ruta absoluta
@@ -12,3 +13,7 @@ export class Exception extends Error {
         this.statusCode = status;
     }
 };  
+
+export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+
+export const isValidPassword = (password, user) => bcrypt.compareSync(password, user.password);

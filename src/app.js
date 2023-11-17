@@ -1,11 +1,13 @@
 //Logic general
 import express from 'express';
+import passport from 'passport';
 import expressSession from 'express-session';
 import MongoStore from 'connect-mongo';
 import path from 'path';
 import handlebars from 'express-handlebars';
 import { __dirname } from './utils.js'
 import { URI } from './db/mongodb.js'
+import { init as initPassportConfig } from'./config/passport.config.js';
 
 //Routes
 import productsApiRouter from './routers/api/products.router.js';
@@ -15,14 +17,11 @@ import cartsViewsRouter from './routers/views/carts.router.js';
 import indexRouter from './routers/views/index.router.js';
 import sessionApiRouter from './routers/api/sessions.router.js';
 
-
-
 //Logic express + sessions
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 const SESSION_SECRET = 'dmO847bYjCv<J46`<d*-ln71AyP7J';
+
 app.use(expressSession({
     secret: SESSION_SECRET,
     resave: false, 
@@ -33,14 +32,19 @@ app.use(expressSession({
         ttl: 3600
     })
 }))
-
-//Logic public
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 //Logic handlebars
 app.engine('handlebars', handlebars.engine()); //motor que uso  
 app.set('views', path.join(__dirname, 'views')); //Ruta de las plantillas
 app.set('view engine', 'handlebars'); //Extension de las vistas
+
+//Passport
+initPassportConfig();
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Routers api
 app.use('/api', productsApiRouter, cartsApiRouter, sessionApiRouter);

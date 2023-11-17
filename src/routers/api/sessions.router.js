@@ -1,28 +1,17 @@
 import { Router } from "express";
+import passport from "passport";
 import userModel from "../../dao/models/user.model.js";
+import { isValidPassword, createHash } from '../../utils.js'
 
 
 const router = Router();
 
-router.post('/sessions/register', async (req, res) =>{
-    const { body } = req; 
-    const newUser = await userModel.create(body); //agregar validaciones para lo que ponga el usuario
+router.post('/sessions/register', passport.authenticate('register', { failureRedirect: '/register' }), (req, res) =>{
     res.redirect('/login');
 });
 
-router.post('/sessions/login', async (req, res) =>{
-    const { body: { email, password } } = req;
-    const user = await userModel.findOne({ email });
-    if (!user) {
-        return res.status(401).send('Correo o contraseña invalidos 😨.');
-    }
-    const isPassValid = user.password === password;
-    if (!isPassValid) {
-        return res.status(401).send('Correo o contraseña invalidos 😨.');
-    }
-    const { first_name, last_name, role } = user;
-    req.session.user = { first_name, last_name, email, role };
-
+router.post('/sessions/login', passport.authenticate('login', { failureRedirect: '/login' }), async (req, res) =>{
+    req.session.user = req.user;
     if (req.session.user && req.session.user.role === 'admin') {
         return res.redirect('/api/productsmanager');
     } else {
@@ -36,5 +25,14 @@ router.get('/sessions/logout', (req, res) => {
     });
 });
 
+router.post('/sessions/recovery-password', async (req, res) => {
+    const { email, newPassword } = req.body;
+    const user = await userModel.findOne({ email });
+    if (!user) {
+        return res.status(401).send('El usuario no existe 😨.');
+    }
+    await userModel.updateOne({ email }, { $set: { password: createHash(newPassword) } });
+    res.redirect('/login');
+});
 
 export default router;

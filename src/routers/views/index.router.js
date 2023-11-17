@@ -4,7 +4,8 @@ const router = Router();
 
 const isAdmin = (role) => {
     return role === 'admin'
-}
+};
+
 
 router.get('/', (req, res) => {
     if (req.session.user && req.session.user.role === 'admin') {
@@ -28,5 +29,8 @@ router.get('/profile', (req, res) =>{
     res.render('profile', {style: 'profile.css', titlePage:'Profile', user: req.session.user, isAdmin })
 });
 
+router.get('/recovery-password', (req, res) => {
+    res.render('recovery-password', { style:'recovery.css' ,titlePage: 'Recuperar contraseña'});
+});
 
 export default router;

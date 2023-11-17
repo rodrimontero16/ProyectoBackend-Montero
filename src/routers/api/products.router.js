@@ -6,7 +6,6 @@ import { buildResponse } from "../views/products.router.js";
 const router = Router();
 
 
-
 //Obtengo products
 router.get('/products', async (req, res) => {
     const products = await ProductManager.get();
