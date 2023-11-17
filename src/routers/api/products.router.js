@@ -2,14 +2,25 @@ import { Router } from "express";
 import ProductManager from "../../dao/ProductManager.js";
 import { buildResponse } from "../views/products.router.js";
 
-
 const router = Router();
 
-
-//Obtengo products
-router.get('/products', async (req, res) => {
-    const products = await ProductManager.get();
-    res.status(200).json(products);
+//Obtengo los productos y los muestro ✔️
+router.get('/products', async (req, res) =>{
+    try {
+        const { page = 1, limit = 10, category, sort } = req.query;
+        const options = { page, limit };
+        if (sort) {
+            options.sort = { price: sort || 1 };
+        }
+        const criteria = {};
+        if (category) {
+            criteria.category = category;
+        }
+        const products = await ProductManager.paginate(criteria, options);
+        res.render('productsManager', buildResponse(products, 'Configuracion', 'realtime.css', 'api/products', req.session.user, category, sort));
+    } catch (error) {
+        res.status(error.statusCode || 500).json({ message: error.message });
+    }
 });
 
 //Obtengo products por id 
@@ -54,24 +65,7 @@ router.delete('/products/:pid', async (req, res) => {
 });
 
 
-//Productos en realTime ✔️
-router.get('/productsmanager', async (req, res) =>{
-    try {
-        const { page = 1, limit = 10, category, sort } = req.query;
-        const options = { page, limit };
-        if (sort) {
-            options.sort = { price: sort || 1 };
-        }
-        const criteria = {};
-        if (category) {
-            criteria.category = category;
-        }
-        const products = await ProductManager.paginate(criteria, options);
-        res.render('productsManager', buildResponse(products, 'Configuracion', 'realtime.css', 'api/productsmanager', req.session.user, category, sort));
-    } catch (error) {
-        res.status(error.statusCode || 500).json({ message: error.message });
-    }
-});
+
 
 export default router;
 

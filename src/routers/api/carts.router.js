@@ -14,7 +14,7 @@ router.post('/carts', async (req, res) => {
     }
 });
 
-//Obtener todos los carritos
+//Obtener todos los carritos y los muestro
 router.get('/carts', async (req, res) =>{
     try {
         const cart = await CartManager.get();
@@ -30,7 +30,7 @@ router.get('/carts', async (req, res) =>{
     }
 });
 
-//Obtener los products de un carts
+//Obtener los products de un carts y los muestro
 router.get('/carts/:cid', async (req, res) => {
     try {
         const { cid } = req.params;
