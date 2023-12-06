@@ -9,6 +9,7 @@ const router = Router();
 //Obtengo los productos y los muestro ✔️
 router.get('/',
     passport.authenticate('jwt', { session: false }),
+    authorizationMiddleware('admin'),
     async (req, res) =>{
         try {
             const { page = 1, limit = 10, category, sort } = req.query;
@@ -21,7 +22,7 @@ router.get('/',
                 criteria.category = category;
             }
             const products = await ProductManager.paginate(criteria, options);
-            res.render('productsManager', buildResponse(products, 'Configuracion', 'realtime.css', 'api/products', category, sort));
+            res.render('productsManager', buildResponse(products, 'Configuracion', 'products.css', 'api/products', category, sort));
         } catch (error) {
             res.status(error.statusCode || 500).json({ message: error.message });
         }

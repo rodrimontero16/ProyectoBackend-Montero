@@ -61,4 +61,14 @@ router.get('/logout', async (req, res) => {
     res.clearCookie('access_token');
     res.redirect('/login');
 });
+
+router.post('/recovery-password', async (req, res) => {
+    const { email, newPassword } = req.body;
+    const user = await userModel.findOne({ email });
+    if (!user) {
+        return res.status(401).send('El usuario no existe 😨.');
+    }
+    await userModel.updateOne({ email }, { $set: { password: createHash(newPassword) } });
+    res.redirect('/login');
+});
 export default router;

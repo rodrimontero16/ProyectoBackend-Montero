@@ -16,21 +16,24 @@ router.get('/products', passport.authenticate('jwt', { session: false }), async 
         if (category) {
             criteria.category = category;
         }
+        const user = req.user;
+        const userCartID = user.cart._id.toString();
         const products = await ProductManager.paginate(criteria, options);
-        res.render('products', buildResponse(products, 'Productos', 'products.css', 'products', category, sort ));
+        const responseData = buildResponse(products, 'Productos', 'products.css', 'products', user, userCartID,category, sort );
+        res.render('products', responseData);
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }
 });
 
-export const buildResponse = (data, titlePage, style, route, user) => {
-    
+export const buildResponse = (data, titlePage, style, route, user, userCartID) => {
     return {
     status: 'success',
     payload: data.docs.map(prod => prod.toJSON()),
     titlePage: titlePage,
     style: style,
     user: user,
+    userCartID:userCartID,
     totalPages: data.totalPages,
     prevPage: data.prevPage,
     nextPage: data.nextPage,
@@ -40,7 +43,6 @@ export const buildResponse = (data, titlePage, style, route, user) => {
     prevLink: data.hasPrevPage ? `http://localhost:8080/${route}?limit=${data.limit}&page=${data.prevPage}${data.category ? `&category=${data.category}` : ''}${data.sort ? `&sort=${data.sort}` : ''}` : '',
     nextLink: data.hasNextPage ? `http://localhost:8080/${route}?limit=${data.limit}&page=${data.nextPage}${data.category ? `&category=${data.category}` : ''}${data.sort ? `&sort=${data.sort}` : ''}` : '',
     };
-    
 };
 
 

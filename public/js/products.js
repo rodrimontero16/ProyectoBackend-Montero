@@ -7,6 +7,10 @@
     const categoryFilter = document.getElementById('category-filter-views');
     const addToCartButtons = document.getElementsByClassName('add-to-cart');
 
+    const cartButton = document.querySelector('[data-cart-id]');
+    const userCart = cartButton.getAttribute('data-cart-id');
+
+
     //Manejo del sort para el price
     let sortDirection = 1;
     const toggleSortDirection = () => {
@@ -22,10 +26,12 @@
         socket.emit('filter-by-category', selectedCategory);
     });
     
+
+
     Array.from(addToCartButtons).forEach((button) =>{
         button.addEventListener('click', () =>{
             const prodId = button.getAttribute('data-product-id');
-            socket.emit('add-to-cart', prodId);
+            socket.emit('add-to-cart', prodId, userCart);
             console.log('Producto agregado correctamente');
         });
     });

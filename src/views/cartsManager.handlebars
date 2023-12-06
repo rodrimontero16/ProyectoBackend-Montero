@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">Usuario</th>
                     <th scope="col">Cantidad de productos</th>
                     <th scope="col">Eliminar/Editar</th>
                 </tr>
@@ -23,6 +24,7 @@
                 {{#each carts}}
                     <tr data-product-id="{{cartID}}">
                         <th scope="row">{{cartID}}</th>
+                        <td>{{userCart}}</td>
                         <td>{{cartLength}}</td>
                         <td class="btn-config">
                             <button class="delete-cart btn-carts" id="{{cartID}}">❌</button>
@@ -34,9 +36,6 @@
                 {{/each}}
             </tbody>
         </table>
-</div>
-<div>
-    <button id="new-cart">Crear un nuevo carrito</button>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>

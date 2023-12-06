@@ -21,7 +21,8 @@ router.get('/', async (req, res) =>{
         const carts = cart.map(c => {
             return {
                 cartID: c._id.toString(),
-                cartLength: c.products.length
+                cartLength: c.products.length,
+                userCart: c.user.toString()
             };
         })
         res.render('cartsManager', {carts, titlePage: 'CartsManager', style: 'carts.css'})
@@ -39,7 +40,7 @@ router.get('/:cid', async (req, res) => {
         const products = cart.products.map(e => {
             return {...e.product._doc, quantity: e.quantity, cartID}
         })
-        res.render('cartProduct', {products, titlePage: 'Editar carrito', style:'carts.css', user: req.session.user})
+        res.render('cartProduct', {products, titlePage: 'Editar carrito', style:'carts.css'})
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }

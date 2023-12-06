@@ -62,3 +62,8 @@ export class Exception extends Error {
         this.statusCode = status;
     }
 };  
+
+//Funcion para verificar si es admin
+export const isAdmin = (role) => {
+    return role === 'admin'
+};

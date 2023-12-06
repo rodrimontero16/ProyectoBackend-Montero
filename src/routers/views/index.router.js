@@ -1,11 +1,7 @@
 import { Router } from 'express';
-import { verifyToken } from '../../utils.js';
+import { verifyToken, isAdmin } from '../../utils.js';
 
 const router = Router();
-
-const isAdmin = (role) => {
-    return role === 'admin'
-};
 
 router.get('/', async (req, res) => {
     const token = req.signedCookies['access_token'];

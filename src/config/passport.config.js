@@ -3,6 +3,7 @@ import passport from 'passport';
 //import { Strategy as GithubStrategy } from 'passport-github2';
 import { Strategy as JwtStrategy, ExtractJwt} from 'passport-jwt';
 import { createHash, isValidPassword, JWT_SECRET } from '../utils.js';
+import userModel from '../dao/models/user.model.js';
 //import userModel from '../dao/models/user.model.js';
 
 // const options = {
@@ -102,7 +103,15 @@ export const init = () =>{
         done(null, user);
     });*/
 
-    passport.use('jwt', new JwtStrategy(jwtOptions, (payload, done) =>{
-        return done(null, payload);
+    passport.use('jwt', new JwtStrategy(jwtOptions, async (payload, done) =>{
+        try {
+            const user = await userModel.findById(payload.id).populate('cart');
+            if (!user) {
+                return done(null, false);
+            }
+            return done(null, user);
+        } catch (error) {
+            return done(error, false);
+        }
     }))
 };

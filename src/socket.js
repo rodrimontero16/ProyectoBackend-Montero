@@ -77,8 +77,8 @@ export const init = (httpServer) => {
                 console.error('Error al filtrar productos por categoría', error.message);
             }
         });
-        socketClient.on('add-to-cart', async (prodId) => {
-            await CartManager.addProduct('654d2cf1fdc586a57eb6a939', prodId);
+        socketClient.on('add-to-cart', async (prodId, userCart) => {
+            await CartManager.addProduct(userCart, prodId);
             socketClient.emit('added-to-cart', prodId);
         });
 
