@@ -1,22 +1,36 @@
 import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
-import { Strategy as GithubStrategy } from 'passport-github2';
-import { createHash, isValidPassword } from '../utils.js';
-import userModel from '../dao/models/user.model.js';
+//import { Strategy as LocalStrategy } from 'passport-local';
+//import { Strategy as GithubStrategy } from 'passport-github2';
+import { Strategy as JwtStrategy, ExtractJwt} from 'passport-jwt';
+import { createHash, isValidPassword, JWT_SECRET } from '../utils.js';
+//import userModel from '../dao/models/user.model.js';
 
-const options = {
-    usernameField: 'email',
-    passReqToCallback: true, //en el callback me recibe el objeto req
-};
+// const options = {
+//     usernameField: 'email',
+//     passReqToCallback: true, //en el callback me recibe el objeto req
+// };
 
-const githubOptions = { //esto tengo que pasarlo por parametro
-    clientID: 'Iv1.e7ee2e533c0ead9c', 
-    clientSecret: 'b8022cad1ec89387b4806797c2abfb2c2d9c4add', 
-    callbackURL: "http://localhost:8080/api/sessions/github/callback", 
+// const githubOptions = { //esto tengo que pasarlo por parametro
+//     clientID: 'Iv1.e7ee2e533c0ead9c', 
+//     clientSecret: 'b8022cad1ec89387b4806797c2abfb2c2d9c4add', 
+//     callbackURL: "http://localhost:8080/api/sessions/github/callback", 
+// }
+
+function cookieExtractor(req) {
+    let token = null;
+    if (req && req.signedCookies) {
+        token = req.signedCookies['access_token'];
+    }
+    return token;
 }
 
+const jwtOptions = {
+    jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]) ,
+    secretOrKey: JWT_SECRET
+};
+
 export const init = () =>{
-    passport.use('register', new LocalStrategy( options, async  (req, email, password, done) =>{
+    /*passport.use('register', new LocalStrategy( options, async  (req, email, password, done) =>{
         try {
             const user = await userModel.findOne({ email });
             if(user){
@@ -33,11 +47,11 @@ export const init = () =>{
         try {
             const user = await userModel.findOne({ email });
             if (!user) {
-                return done(new Error('Correo o contraseña invalidos'));
+                return done();
             }
             const isPassValid = isValidPassword(password, user);
             if (!isPassValid) {
-                return done(new Error('Correo o contraseña invalidos'));
+                return done();
             }
             done(null, user);
         } catch (error) {
@@ -46,7 +60,17 @@ export const init = () =>{
     }));
 
     passport.use('github', new GithubStrategy( githubOptions, async (accessToken, refreshToken, profile, done) =>{ //estos parametros son diferentes en cada estrategia
-        const email =  profile._json.email;
+        let email =  profile._json.email;
+        if(!email){
+            let data = await fetch('https://api.github.com/user/public_emails', {
+                headers: {
+                    Authorization: `token ${accessToken}`,
+                }
+            });
+            data = await data.json();
+            const target = data.find((item) => item.primary && item.verified && item.visibility === 'public');
+            email = target.email;
+        }
         let user = await userModel.findOne({ email });
 
         //Me fijo si existe, si existe hicia sesion
@@ -76,6 +100,9 @@ export const init = () =>{
     passport.deserializeUser(async (uid, done) => { //traigo todo lo que tiene el user a traves de su id
         const user = await userModel.findById(uid);
         done(null, user);
-    });
+    });*/
 
+    passport.use('jwt', new JwtStrategy(jwtOptions, (payload, done) =>{
+        return done(null, payload);
+    }))
 };

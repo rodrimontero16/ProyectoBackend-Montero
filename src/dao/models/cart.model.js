@@ -5,7 +5,8 @@ const cartProductSchema = new Schema({
     quantity: { type: Number, default: 1 },
 }, { _id: false });
 
-const cartSchema = new Schema({
+const cartSchema = new Schema({ 
+    user:{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     products: { type:[cartProductSchema], default: [] }
 }, { timestamps: true });
 

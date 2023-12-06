@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import ProductManager from '../../dao/ProductManager.js';
+import passport from "passport";
 
 
 const router = Router();
 
-router.get('/products', async (req, res) => {
+router.get('/products', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const { page = 1, limit = 6, category, sort } = req.query;
         const options = { page, limit };
@@ -16,7 +17,7 @@ router.get('/products', async (req, res) => {
             criteria.category = category;
         }
         const products = await ProductManager.paginate(criteria, options);
-        res.render('products', buildResponse(products, 'Productos', 'products.css', 'products', req.session.user, category, sort ));
+        res.render('products', buildResponse(products, 'Productos', 'products.css', 'products', category, sort ));
     } catch (error) {
         res.status(error.statusCode || 500).json({ message: error.message });
     }

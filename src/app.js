@@ -1,13 +1,14 @@
 //Logic general
 import express from 'express';
 import passport from 'passport';
-import expressSession from 'express-session';
-import MongoStore from 'connect-mongo';
+//import expressSession from 'express-session';
+//import MongoStore from 'connect-mongo';
 import path from 'path';
 import handlebars from 'express-handlebars';
 import { __dirname } from './utils.js'
-import { URI } from './db/mongodb.js'
+//import { URI } from './db/mongodb.js'
 import { init as initPassportConfig } from'./config/passport.config.js';
+import cookieParser from 'cookie-parser';
 
 //Routes
 import productsApiRouter from './routers/api/products.router.js';
@@ -15,23 +16,28 @@ import cartsApiRouter from './routers/api/carts.router.js';
 import productsViewsRouter from './routers/views/products.router.js';
 import cartsViewsRouter from './routers/views/carts.router.js';
 import indexRouter from './routers/views/index.router.js';
-import sessionApiRouter from './routers/api/sessions.router.js';
+//import sessionApiRouter from './routers/api/sessions.router.js';
+import authApiRouter from './routers/api/auth.router.js'
 
 //Logic express + sessions
 const app = express();
 
-const SESSION_SECRET = 'dmO847bYjCv<J46`<d*-ln71AyP7J';
+// const SESSION_SECRET = 'dmO847bYjCv<J46`<d*-ln71AyP7J';
 
-app.use(expressSession({
-    secret: SESSION_SECRET,
-    resave: false, 
-    saveUninitialized: false, 
-    store: MongoStore.create({
-        mongoUrl: URI,
-        mongoOptions: {},
-        ttl: 3600
-    })
-}))
+// app.use(expressSession({
+//     secret: SESSION_SECRET,
+//     resave: false, 
+//     saveUninitialized: false, 
+//     store: MongoStore.create({
+//         mongoUrl: URI,
+//         mongoOptions: {},
+//         ttl: 3600
+//     })
+// }))
+
+const COOKIE_SECRET = 'qBvPkU2X;J1,51Z!~2p[JW.DT|g:4l@';
+
+app.use(cookieParser(COOKIE_SECRET));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
@@ -44,12 +50,20 @@ app.set('view engine', 'handlebars'); //Extension de las vistas
 //Passport
 initPassportConfig();
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 
 //Routers api
-app.use('/api', productsApiRouter, cartsApiRouter, sessionApiRouter);
+app.use('/api/products', productsApiRouter);
+app.use('/api/carts', cartsApiRouter);
+app.use('/api/auth', authApiRouter);
+//app.use('/api/sessions', sessionApiRouter);
+
 //Routers views
 app.use('/', productsViewsRouter, cartsViewsRouter, indexRouter);
+
+app.get('*', (req, res) => {
+    res.status(404).json({ message: 'Endpoint not found 😨' });
+})
 
 //Middlewares error
 app.use((error, req, res, next) => {

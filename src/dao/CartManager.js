@@ -7,9 +7,20 @@ export default class CartManager {
         return await cartModel.find();
     }
 
+    static async getOrCreateCart(userId) {
+        const existingCart = await cartModel.findOne({ user: userId });
+        if (existingCart) {
+            return existingCart;
+        } else {
+    
+            const newCart = await cartModel.create({ user: userId, products: [] });
+            return newCart;
+        }
+    }
+
     static async create(data){
-        const newCart = await cartModel.create(data);
-        return newCart;
+        const cart = await cartModel.create(data);
+        return cart;
     };
 
     static async getById(cid){

@@ -3,13 +3,14 @@
         <li><strong>Ecommerce</strong></li>
     </ul>
     <ul>
-        {{#if (isAdmin user.role)}}
+        {{#if isAdmin}}
             <li><a href="/api/products">ProductsManager</a></li>
             <li><a href="/api/carts">CartsManager</a></li>
+            <li><a href="/products">Tienda</a></li>
         {{else}}
             <li><a href="/products">Tienda</a></li>
         {{/if}}
-        <li><a href="/api/sessions/logout">Cerrar sesión</a></li>
+        <li><a href="/api/auth/logout">Cerrar sesión</a></li>
     </ul>
 </nav>
 <article>

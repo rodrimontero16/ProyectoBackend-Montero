@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { verifyToken } from '../../utils.js';
 
 const router = Router();
 
@@ -6,28 +7,45 @@ const isAdmin = (role) => {
     return role === 'admin'
 };
 
+router.get('/', async (req, res) => {
+    const token = req.signedCookies['access_token'];
 
-router.get('/', (req, res) => {
-    if (req.session.user && req.session.user.role === 'admin') {
-        return res.redirect('/api/products');
-    } else if (req.session.user && req.session.user.role === 'user') {
-        res.redirect('/products');
-    } else {
-        res.redirect('/login')
+    if(token){
+        try {
+            const user = await verifyToken(token);
+            if (user.role === 'admin') {
+                return res.redirect('/api/products');
+            } else if (user.role === 'user') {
+                return res.redirect('/products');
+            }
+        } catch (error) {
+            console.error(error);
+            return res.redirect('/login');
+        }
     }
+
+    res.redirect('/login');
 });
 
 router.get('/login', (req, res) =>{
-    res.render('login', {style: 'index.css', titlePage:'Login', user: req.session.user })
+    res.render('login', {style: 'login.css', titlePage:'Login'})
 });
 
 router.get('/register', (req, res) =>{
     res.render('register', {style: 'register.css', titlePage:'Register'})
 });
 
-router.get('/profile', (req, res) =>{
-    res.render('profile', {style: 'profile.css', titlePage:'Profile', user: req.session.user, isAdmin })
+router.get('/profile', async (req, res) => {
+    try {
+        const token = req.signedCookies['access_token'];
+        const user = await verifyToken(token);
+        res.render('profile', { style: 'profile.css', titlePage: 'Profile', user, isAdmin: isAdmin(user.role) });
+    } catch (error) {
+        console.error(error);
+        res.redirect('/login');
+    }
 });
+
 
 router.get('/recovery-password', (req, res) => {
     res.render('recovery-password', { style:'recovery.css' ,titlePage: 'Recuperar contraseña'});
