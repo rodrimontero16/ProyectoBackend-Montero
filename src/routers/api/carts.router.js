@@ -1,5 +1,7 @@
 import { Router } from "express";
 import CartManager from "../../dao/CartManager.js";
+import passport from "passport";
+import { authorizationMiddleware } from "../../utils.js";
 
 const router = Router();
 
@@ -15,20 +17,23 @@ router.post('/', async (req, res) => {
 });
 
 //Obtener todos los carritos y los muestro
-router.get('/', async (req, res) =>{
-    try {
-        const cart = await CartManager.get();
-        const carts = cart.map(c => {
-            return {
-                cartID: c._id.toString(),
-                cartLength: c.products.length,
-                userCart: c.user.toString()
-            };
-        })
-        res.render('cartsManager', {carts, titlePage: 'CartsManager', style: 'carts.css'})
-    } catch (error) {
-        res.status(error.statusCode || 500).json({ message: error.message });
-    }
+router.get('/',
+    passport.authenticate('jwt', { session: false }),
+    authorizationMiddleware('admin'),
+    async (req, res) =>{
+        try {
+            const cart = await CartManager.get();
+            const carts = cart.map(c => {
+                return {
+                    cartID: c._id.toString(),
+                    cartLength: c.products.length,
+                    userCart: c.user.toString()
+                };
+            })
+            res.render('cartsManager', {carts, titlePage: 'CartsManager', style: 'carts.css'})
+        } catch (error) {
+            res.status(error.statusCode || 500).json({ message: error.message });
+        }
 });
 
 //Obtener los products de un carts y los muestro

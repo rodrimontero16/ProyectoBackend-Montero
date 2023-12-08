@@ -9,6 +9,7 @@ import { __dirname } from './utils.js'
 //import { URI } from './db/mongodb.js'
 import { init as initPassportConfig } from'./config/passport.config.js';
 import cookieParser from 'cookie-parser';
+import config from './config.js';
 
 //Routes
 import productsApiRouter from './routers/api/products.router.js';
@@ -35,7 +36,7 @@ const app = express();
 //     })
 // }))
 
-const COOKIE_SECRET = 'qBvPkU2X;J1,51Z!~2p[JW.DT|g:4l@';
+const COOKIE_SECRET = config.secret.cookieSecret;
 
 app.use(cookieParser(COOKIE_SECRET));
 app.use(express.json());

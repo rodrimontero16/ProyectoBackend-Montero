@@ -2,6 +2,7 @@ import path from 'path';
 import bcrypt from 'bcrypt';
 import  JWT from 'jsonwebtoken';
 import { fileURLToPath } from 'url';
+import config from './config.js';
 
 
 //Ruta absoluta
@@ -13,7 +14,7 @@ export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSalt
 export const isValidPassword = (password, user) => bcrypt.compareSync(password, user.password);
 
 //JWT
-export const JWT_SECRET = 'dmO847bYjCv<J46`sdgf-ln71AyP7J';
+export const JWT_SECRET = config.secret.jwtSecret;
 export const tokenGenerator = (user) => {
     const {
         _id,
