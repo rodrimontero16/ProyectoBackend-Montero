@@ -1,5 +1,5 @@
 import { Router } from "express";
-import userModel from "../../dao/models/user.model.js";
+import userModel from "../../models/user.model.js";
 import { createHash, isValidPassword, tokenGenerator } from "../../utils.js";
 import CartManager from '../../dao/CartManager.js'
 

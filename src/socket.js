@@ -2,7 +2,6 @@ import { Server } from 'socket.io';
 import { __dirname } from './utils.js';
 import ProductManager from './dao/ProductManager.js';
 import CartManager from './dao/CartManager.js';
-import userModel from './dao/models/user.model.js';
 import mongoose from 'mongoose';
 
 let io;

@@ -3,8 +3,7 @@ import passport from 'passport';
 //import { Strategy as GithubStrategy } from 'passport-github2';
 import { Strategy as JwtStrategy, ExtractJwt} from 'passport-jwt';
 import { createHash, isValidPassword, JWT_SECRET } from '../utils.js';
-import userModel from '../dao/models/user.model.js';
-//import userModel from '../dao/models/user.model.js';
+import userModel from '../models/user.model.js';
 
 // const options = {
 //     usernameField: 'email',

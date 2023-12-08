@@ -6,50 +6,54 @@ import { authorizationMiddleware } from "../../utils.js";
 const router = Router();
 
 //Crear un carrito
-router.post('/', async (req, res) => {
-    try {
-        const { body } = req;
-        const newCart = await CartManager.create(body);
-        res.status(201).json(newCart);
-    } catch (error) {
-        res.status(error.statusCode || 500).json({ message: error.message });
-    }
-});
-
-//Obtener todos los carritos y los muestro
-router.get('/',
+router.post('/', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin'),
-    async (req, res) =>{
+    authorizationMiddleware('admin'),    
+    async (req, res) => {
         try {
-            const cart = await CartManager.get();
-            const carts = cart.map(c => {
-                return {
-                    cartID: c._id.toString(),
-                    cartLength: c.products.length,
-                    userCart: c.user.toString()
-                };
-            })
-            res.render('cartsManager', {carts, titlePage: 'CartsManager', style: 'carts.css'})
+            const { body } = req;
+            const newCart = await CartManager.create(body);
+            res.status(201).json(newCart);
         } catch (error) {
             res.status(error.statusCode || 500).json({ message: error.message });
         }
 });
 
+//Obtener todos los carritos y los muestro
+// router.get('/',
+//     passport.authenticate('jwt', { session: false }),
+//     authorizationMiddleware('admin'),
+//     async (req, res) =>{
+//         try {
+//             const cart = await CartManager.get();
+//             const carts = cart.map(c => {
+//                 return {
+//                     cartID: c._id.toString(),
+//                     cartLength: c.products.length,
+//                     userCart: c.user.toString()
+//                 };
+//             })
+//             res.render('cartsManager', {carts, titlePage: 'CartsManager', style: 'carts.css'})
+//         } catch (error) {
+//             res.status(error.statusCode || 500).json({ message: error.message });
+//         }
+// });
+
 //Obtener los products de un carts y los muestro
-router.get('/:cid', async (req, res) => {
-    try {
-        const { cid } = req.params;
-        const cart = await CartManager.getById(cid);
-        const cartID = cid; 
-        const products = cart.products.map(e => {
-            return {...e.product._doc, quantity: e.quantity, cartID}
-        })
-        res.render('cartProduct', {products, titlePage: 'Editar carrito', style:'carts.css'})
-    } catch (error) {
-        res.status(error.statusCode || 500).json({ message: error.message });
-    }
-});
+// router.get('/:cid', async (req, res) => {
+//     try {
+//         const { cid } = req.params;
+//         const cart = await CartManager.getById(cid);
+//         const cartID = cid; 
+//         const products = cart.products.map(e => {
+//             return {...e.product._doc, quantity: e.quantity, cartID}
+//         })
+//         res.render('cartProduct', {products, titlePage: 'Editar carrito', style:'carts.css'})
+//     } catch (error) {
+//         res.status(error.statusCode || 500).json({ message: error.message });
+//     }
+// });
+
 
 //Agregar un product al cart
 router.post('/:cid/products/:pid', async (req,res) =>{

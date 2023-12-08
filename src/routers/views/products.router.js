@@ -1,10 +1,34 @@
 import { Router } from 'express';
 import ProductManager from '../../dao/ProductManager.js';
 import passport from "passport";
+import { authorizationMiddleware } from '../../utils.js';
 
 
 const router = Router();
 
+//Products Manager ✔️
+router.get('/api/products',
+    passport.authenticate('jwt', { session: false }),
+    authorizationMiddleware('admin'),
+    async (req, res) =>{
+        try {
+            const { page = 1, limit = 10, category, sort } = req.query;
+            const options = { page, limit };
+            if (sort) {
+                options.sort = { price: sort || 1 };
+            }
+            const criteria = {};
+            if (category) {
+                criteria.category = category;
+            }
+            const products = await ProductManager.paginate(criteria, options);
+            res.render('productsManager', buildResponse(products, 'Configuracion', 'products.css', 'api/products', category, sort));
+        } catch (error) {
+            res.status(error.statusCode || 500).json({ message: error.message });
+        }
+});
+
+//Products para el cliente
 router.get('/products', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const { page = 1, limit = 6, category, sort } = req.query;

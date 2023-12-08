@@ -1,5 +1,5 @@
-import cartModel from '../dao/models/cart.model.js';
-import productModel from './models/product.model.js';
+import cartModel from '../models/cart.model.js';
+import productModel from '../models/product.model.js';
 import { Exception } from '../utils.js';
 
 export default class CartManager {
