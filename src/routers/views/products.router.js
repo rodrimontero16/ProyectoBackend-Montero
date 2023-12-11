@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ProductManager from '../../dao/ProductManager.js';
+import ProductsControllers from '../../controllers/product.controller.js';
 import passport from "passport";
 import { authorizationMiddleware } from '../../utils.js';
 
@@ -21,7 +21,7 @@ router.get('/api/products',
             if (category) {
                 criteria.category = category;
             }
-            const products = await ProductManager.paginate(criteria, options);
+            const products = await ProductsControllers.paginate(criteria, options);
             res.render('productsManager', buildResponse(products, 'Configuracion', 'products.css', 'api/products', category, sort));
         } catch (error) {
             res.status(error.statusCode || 500).json({ message: error.message });
@@ -42,7 +42,7 @@ router.get('/products', passport.authenticate('jwt', { session: false }), async 
         }
         const user = req.user;
         const userCartID = user.cart._id.toString();
-        const products = await ProductManager.paginate(criteria, options);
+        const products = await ProductsControllers.paginate(criteria, options);
         const responseData = buildResponse(products, 'Productos', 'products.css', 'products', user, userCartID,category, sort );
         res.render('products', responseData);
     } catch (error) {
@@ -68,7 +68,5 @@ export const buildResponse = (data, titlePage, style, route, user, userCartID) =
     nextLink: data.hasNextPage ? `http://localhost:8080/${route}?limit=${data.limit}&page=${data.nextPage}${data.category ? `&category=${data.category}` : ''}${data.sort ? `&sort=${data.sort}` : ''}` : '',
     };
 };
-
-
 
 export default router;

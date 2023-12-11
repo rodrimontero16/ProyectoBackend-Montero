@@ -1,13 +1,13 @@
-import productModel from '../models/product.model.js';
-import { Exception } from '../utils.js';
+import ProductsServices from "../services/product.services.js";
+import { Exception } from "../utils.js";
 
-export default class ProductManager {
+export default class ProductsControllers {
     static async get(){
-        return await productModel.find();
+        return await ProductsServices.get();
     };
 
     static async getById(pid){
-        const product = await productModel.findById(pid);
+        const product = await ProductsServices.getById(pid);
         if(!product){
             throw new Exception('Producto no encontrado ❌', 404);
         };
@@ -15,37 +15,37 @@ export default class ProductManager {
     };
 
     static async create(data){
-        const newProduct = await productModel.create(data); 
+        const newProduct = await ProductsServices.create(data); 
         console.log('Producto agregado correctamente ✔️');
         return newProduct;
     };
     
     static async findOne(query) {
-        return await productModel.findOne(query);
+        return await ProductsServices.get(query);
     }
 
     static async updateById(pid, data){
-        const product = await productModel.findById(pid);
+        const product = await ProductsServices.getById(pid);
         if(!product){
             throw new Exception('Producto no encontrado ❌', 404);
         };
         const criteria = { _id: pid };
         const operation = { $set: data };
-        await productModel.updateOne( criteria, operation );
+        await ProductsServices.updateById( criteria, operation );
         console.log('Producto actualizado correctamente ✔️');
     };
 
     static async deleteById(pid){
-        const product = await productModel.findById(pid);
+        const product = await ProductsServices.getById(pid);
         if(!product){
             throw new Exception('Producto no encontrado ❌', 404);
         };
         const criteria = { _id: pid };
-        await productModel.deleteOne(criteria);
+        await ProductsServices.deleteById(criteria);
         console.log('Producto eliminado correctamente ✔️');
     };
 
     static async paginate(criteria, options) {
-        return await productModel.paginate(criteria, options);
+        return await ProductsServices.paginate(criteria, options);
     }
-};
+}

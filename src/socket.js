@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import { __dirname } from './utils.js';
-import ProductManager from './dao/ProductManager.js';
-import CartManager from './dao/CartManager.js';
+import ProductsControllers from './controllers/product.controller.js';
+import CartsController from './controllers/carts.controller.js';
 import mongoose from 'mongoose';
 
 let io;
@@ -20,15 +20,15 @@ export const init = (httpServer) => {
                 };
 
                 try {
-                    const existingProduct = await ProductManager.findOne({ code: newProduct.code });
+                    const existingProduct = await ProductsControllers.findOne({ code: newProduct.code });
                     if (existingProduct) {
                         console.log(`El producto con code: ${newProduct.code} ya existe`);
                         socketClient.emit('prod-existente');
                         return;
                     }
                     else {
-                        await ProductManager.create(newProduct);
-                        const products = await ProductManager.get();
+                        await ProductsControllers.create(newProduct);
+                        const products = await ProductsControllers.get();
                         socketClient.emit('add-prod', products);
                     };
                 } catch (error) {
@@ -44,7 +44,7 @@ export const init = (httpServer) => {
             }
             try {
                 await ProductManager.deleteById(prodId);
-                const products = await ProductManager.get();
+                const products = await ProductsControllers.get();
                 socketClient.emit('prod-delete', products);
             } catch (error) {
                 console.error('Error al eliminar el producto', error.message);
@@ -54,7 +54,7 @@ export const init = (httpServer) => {
         socketClient.on('toggle-sort', async (sortDirection) => {
             try {
                 const sortParam = { price: sortDirection };
-                const sortProducts = await ProductManager.paginate({}, { sort: sortParam });
+                const sortProducts = await ProductsControllers.paginate({}, { sort: sortParam });
                 const products = sortProducts.docs;
                 socketClient.emit('update-products', products);
             } catch (error) {
@@ -69,7 +69,7 @@ export const init = (httpServer) => {
                     criteria.category = selectedCategory;
                 }
                 
-                const categoryProducts = await ProductManager.paginate(criteria, options);
+                const categoryProducts = await ProductsControllers.paginate(criteria, options);
                 const products = categoryProducts.docs;
                 socketClient.emit('update-products', products);
             } catch (error) {
@@ -77,14 +77,14 @@ export const init = (httpServer) => {
             }
         });
         socketClient.on('add-to-cart', async (prodId, userCart) => {
-            await CartManager.addProduct(userCart, prodId);
+            await CartsController.addProduct(userCart, prodId);
             socketClient.emit('added-to-cart', prodId);
         });
 
         socketClient.on('delete-cart', async (cartId) =>{
             try {
-                await CartManager.deleteById(cartId);
-                const cart = await CartManager.get();
+                await CartsController.deleteById(cartId);
+                const cart = await CartsController.get();
                 const carts = cart.map(c => {
                     return {
                         cartID: c._id.toString(),
@@ -99,8 +99,8 @@ export const init = (httpServer) => {
 
         socketClient.on('new-cart', async () =>{
             try {
-                const newCart = await CartManager.create();
-                const cart = await CartManager.get();
+                const newCart = await CartsController.create();
+                const cart = await CartsController.get();
                 const carts = cart.map(c => {
                     return {
                         cartID: c._id.toString(),

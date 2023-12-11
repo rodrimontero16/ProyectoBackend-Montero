@@ -1,7 +1,7 @@
 import { Router } from "express";
 import userModel from "../../models/user.model.js";
 import { createHash, isValidPassword, tokenGenerator } from "../../utils.js";
-import CartManager from '../../dao/CartManager.js'
+import CartsController from "../../controllers/carts.controller.js";
 
 const router = Router();
 
@@ -32,7 +32,7 @@ router.post('/register', async (req, res) =>{
         password: createHash(password)
     });
 
-    const cart = await CartManager.getOrCreateCart(user._id);
+    const cart = await CartsController.getOrCreateCart(user._id);
     user.cart = cart._id;
     await user.save();
 
