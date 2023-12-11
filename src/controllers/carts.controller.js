@@ -1,6 +1,6 @@
 import CartsServices from "../services/cart.services.js";
 import { Exception } from "../utils.js";
-import productModel from "../models/product.model.js";
+import ProductsControllers from "../controllers/product.controller.js"
 
 export default class CartsController {
     static async create(data){
@@ -44,7 +44,7 @@ export default class CartsController {
         if(!cart){
             throw new Exception('El carrito no existe ❌', 404);
         } else{
-            const product = await productModel.findById(pid);
+            const product = await ProductsControllers.getById(pid);
             if (!product) {
                 throw new Exception('El producto no existe ❌', 404);
             };
@@ -92,7 +92,7 @@ export default class CartsController {
         cart.products = []
         for (const product of products){
             const { product: productId, quantity } = product;
-            const productObj = await productModel.findById(productId);
+            const productObj = await ProductsControllers.getById(productId);
             if (!productObj) {
                 throw new Exception('El producto no existe ❌', 404);
             }
@@ -105,7 +105,7 @@ export default class CartsController {
 
     static async updateProductQuantity(cid, pid, quantity) {
         const cart = await CartsServices.getById(cid);
-        const product = await productModel.findById(pid);
+        const product = await ProductsControllers.getById(pid);
         if (!product) {
             throw new Exception('El producto no existe ❌', 404);
         }
