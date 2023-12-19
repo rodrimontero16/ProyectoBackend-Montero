@@ -1,7 +1,8 @@
 import { Router } from "express";
-import userModel from "../../models/user.model.js";
+import UsersControllers from "../../controllers/users.controller.js";
 import { createHash, isValidPassword, tokenGenerator } from "../../utils.js";
 import CartsController from "../../controllers/carts.controller.js";
+import passport from "passport";
 
 const router = Router();
 
@@ -41,7 +42,7 @@ router.post('/register', async (req, res) =>{
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    const user = await userModel.findOne({ email });
+    const user = await UsersControllers.getOne({email});
     if (!user) {
         return res.status(401).json({ message: 'Correo o contraseña invalidos 😨' });
     }
@@ -64,11 +65,29 @@ router.get('/logout', async (req, res) => {
 
 router.post('/recovery-password', async (req, res) => {
     const { email, newPassword } = req.body;
-    const user = await userModel.findOne({ email });
+    const user = await UsersControllers.getOne({ email });
     if (!user) {
         return res.status(401).send('El usuario no existe 😨.');
     }
-    await userModel.updateOne({ email }, { $set: { password: createHash(newPassword) } });
+
+    let hashedPassword = createHash(newPassword);
+
+    await UsersControllers.updateById(user._id , { password: hashedPassword });
     res.redirect('/login');
 });
+
+router.get('/github', passport.authenticate('github', { scope:['user.email'] }));
+router.get('/github/callback', passport.authenticate('github', { failureRedirect: '/login', session: false }), async (req, res) =>{
+    try {
+        const user = req.user;
+        const token = tokenGenerator(user);
+        res
+        .cookie('access_token', token, { maxAge: 1000*60*30, httpOnly: true, signed: true })
+        .status(200)
+        .redirect('/');
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
 export default router;

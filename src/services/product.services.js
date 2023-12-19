@@ -21,7 +21,7 @@ export default class ProductsServices {
     };
 
     static deleteById(pid){
-        return CartProductDaoDao.deleteById(pid);
+        return ProductDao.deleteById(pid);
     };
 
     static  paginate(criteria, options) {
