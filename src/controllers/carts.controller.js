@@ -12,17 +12,6 @@ export default class CartsController {
         return await CartsServices.get(query);
     };
 
-    static async getOrCreateCart(userId) {
-        const existingUserCart = await CartsServices.get({ user: userId });
-        if (existingUserCart) {
-            return existingUserCart;
-        } else {
-    
-            const newCart = await CartsServices.create({ user: userId, products: [] });
-            return newCart;
-        }
-    };
-
     static async getById(cid){
         const cart = await CartsServices.getById(cid).populate('products.product').exec();
         if (!cart){

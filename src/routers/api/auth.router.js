@@ -21,11 +21,11 @@ router.post('/register', async (req, res) =>{
         return res.status(400).json({ message: 'Todos los campos son requeridos' });
     }
 
-    let user = await userModel.findOne({ email });
-    if (user) {
+    let newUser = await UsersControllers.getOne({ email });
+    if (newUser) {
         return res.status(400).json({ message: 'Correo ya existente ❌' });
     }
-    user = await userModel.create({
+    newUser = await UsersControllers.create({
         first_name,
         last_name,
         email,
@@ -33,9 +33,11 @@ router.post('/register', async (req, res) =>{
         password: createHash(password)
     });
 
-    const cart = await CartsController.getOrCreateCart(user._id);
-    user.cart = cart._id;
-    await user.save();
+    const cart = await CartsController.create({user: newUser.id, products: []});
+
+    newUser.cart = cart._id;
+
+    await newUser.save();
 
     res.status(201).redirect('/login');
 });
@@ -43,6 +45,7 @@ router.post('/register', async (req, res) =>{
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await UsersControllers.getOne({email});
+    
     if (!user) {
         return res.status(401).json({ message: 'Correo o contraseña invalidos 😨' });
     }
@@ -50,6 +53,7 @@ router.post('/login', async (req, res) => {
     if (!isPassValid) {
         return res.status(401).json({ message: 'Correo o contraseña invalidos 😨' });
     }
+
     const token = tokenGenerator(user, user.cart);
     res
         .cookie('access_token', token, { maxAge: 1000*60*30, httpOnly: true, signed: true })
