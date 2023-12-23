@@ -17,20 +17,19 @@ export const isValidPassword = (password, user) => bcrypt.compareSync(password, 
 export const JWT_SECRET = config.secret.jwtSecret;
 export const tokenGenerator = (user) => {
     const {
-        _id,
-        first_name,
-        last_name, 
+        id,
+        fullName, 
         email, 
         role 
     } = user;
 
     const payload = {
-        id: _id,
-        first_name,
-        last_name,
+        id,
+        fullName,
         email,
         role
     };
+
     return JWT.sign(payload, JWT_SECRET, { expiresIn: '30m' });
 };
 

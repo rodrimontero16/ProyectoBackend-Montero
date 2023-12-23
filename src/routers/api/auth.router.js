@@ -44,6 +44,7 @@ router.post('/register', async (req, res) =>{
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
+    
     const user = await UsersControllers.getOne({email});
     
     if (!user) {
@@ -54,7 +55,10 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ message: 'Correo o contraseña invalidos 😨' });
     }
 
+    req.user = user;
+
     const token = tokenGenerator(user, user.cart);
+    
     res
         .cookie('access_token', token, { maxAge: 1000*60*30, httpOnly: true, signed: true })
         .status(200)

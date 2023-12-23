@@ -7,6 +7,7 @@ import { __dirname } from './utils.js'
 import { init as initPassportConfig } from'./config/passport.config.js';
 import cookieParser from 'cookie-parser';
 import config from './config.js';
+import cors from 'cors';
 
 //Routes
 import productsApiRouter from './routers/api/products.router.js';
@@ -23,6 +24,13 @@ app.use(cookieParser(COOKIE_SECRET));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
+
+//cors
+const corsOptions = {
+    origin: 'http://localhost:5500',
+    methods: ['GET','POST','PUT'],
+};
+app.use(cors(corsOptions));
 
 //Logic handlebars
 app.engine('handlebars', handlebars.engine()); //motor que uso  

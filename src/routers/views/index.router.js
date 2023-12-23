@@ -5,7 +5,6 @@ const router = Router();
 
 router.get('/', async (req, res) => {
     const token = req.signedCookies['access_token'];
-
     if(token){
         try {
             const user = await verifyToken(token);
