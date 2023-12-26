@@ -56,7 +56,7 @@ router.get('/carts/:cid', async (req, res, next) => {
             return {...e.product._doc, quantity: e.quantity, cartId, totalPrice:e.quantity*e.product.price}
         })
         const totalCompra = calcularTotal(products);
-        res.render('carts', {products, totalCompra, titlePage: 'Carrito', style: 'carts.css'})
+        res.render('carts', {products, totalCompra, cartId, titlePage: 'Carrito', style: 'carts.css'})
     } catch (error) {
         console.log('Ocurrio un error durante la busqueda del carrito del cliente');
         next(error);

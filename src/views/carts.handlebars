@@ -9,6 +9,7 @@
     </ul>
 </nav>
 <div class="carts-container">
+    <h1>Carrito:</h1>
     <table class="table-carts">
         <thead>
             <tr>
@@ -21,11 +22,6 @@
         <tbody id="tablaCarts">
             {{#if products}}  
                 {{#each products}}
-                {{#if @first}}
-                    <h3>
-                        ID Carrito: {{this.cartId}}
-                    </h3>
-                {{/if}} 
                     <tr data-product-id="{{this._id}}">
                         <th scope="row">{{this.title}}</th>
                         <td>${{this.price}}</td>
@@ -33,7 +29,7 @@
                         <td>${{this.totalPrice}}</td>
                     </tr>
                 {{/each}}
-            
+            {{/if}}
         </tbody>
         <tfoot>
             <td colspan="2"></td>
@@ -41,9 +37,7 @@
             <td>${{totalCompra}}</td>
         </tfoot>
     </table>
-    <form action="/api/carts/6581f8b4b04dfeecedf1c999/purchase" method="post">
-        <button><input type="submit" value="Comprar"></button>
+    <form action="/api/carts/{{this.cartId}}/purchase" method="post">
+        <input type="submit" value="Finalizar compra">
     </form>
-    {{/if}}
-
 </div>

@@ -96,7 +96,7 @@ router.post('/:cid/purchase',
             
             const ticket = await TicketsController.create(cid, userEmail);
 
-            res.json(ticket);
+            res.status(200).json(ticket);
             
         } catch (error) {
             res.status(error.status || 500).json({ message: error.message });
