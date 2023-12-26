@@ -1,16 +1,28 @@
-<h1>Ticket Details</h1>
-<p><strong>Code:</strong> {{ticket.code}}</p>
-<p><strong>Purchase Date:</strong> {{ticket.purchase_datetime}}</p>
-<p><strong>Amount:</strong> ${{ticket.amount}}</p>
-<p><strong>Purchaser:</strong> {{ticket.purchaser}}</p>
+<nav>
+    <ul>
+        <li><strong>Ecommerce</strong></li>
+    </ul>
+    <ul>
+        <li><a href="/products"><button>Tienda</button></a></li>
+        <li><a href="/profile">Perfil</a></li>
+        <li><a href="/api/auth/logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
 
-<h2>Products</h2>
+<h1>Ticket</h1>
+<p><strong>Codigo de la compra:</strong> {{code}}</p>
+<p><strong>Fecha y hora:</strong> {{purchase_datetime}}</p>
+<p><strong>Compra total:</strong> ${{amount}}</p>
+<p><strong>Usuario:</strong> {{purchaser}}</p>
+
+<h2>Productos</h2>
 <ul>
-    {{#each ticket.products}}
-        <li>
-            <strong>Product ID:</strong> {{this.product}}, 
-            <strong>Quantity:</strong> {{this.quantity}}
-        </li>
-    {{/each}}
+    {{#if products}} 
+        {{#each products}}
+            <li>
+                <strong>ID del producto:</strong> {{this.product}}, 
+                <strong>Cantidad:</strong> {{this.quantity}}
+            </li>
+        {{/each}}
+    {{/if}}
 </ul>
-<h3>! This ticket has been send to your email account for you to have it</h3>

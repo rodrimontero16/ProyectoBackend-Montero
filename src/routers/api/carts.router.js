@@ -96,7 +96,17 @@ router.post('/:cid/purchase',
             
             const ticket = await TicketsController.create(cid, userEmail);
 
-            res.status(200).json(ticket);
+            const products = ticket.products.map(e => {
+                return {product: e.product, quantity: e.quantity}
+            }) 
+
+            res.render('ticket', {   
+                code: ticket.code,
+                purchase_datetime: ticket.purchase_datetime,
+                amount: ticket.amount,
+                purchaser: ticket.purchaser,
+                products: products}
+                )
             
         } catch (error) {
             res.status(error.status || 500).json({ message: error.message });
