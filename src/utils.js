@@ -67,3 +67,8 @@ export class Exception extends Error {
 export const isAdmin = (role) => {
     return role === 'admin'
 };
+
+//Calcular total de carritos
+export const calcularTotal = (products) => {
+    return products.reduce((total, product) => total + (product.quantity * product.price || 0), 0);
+}

@@ -16,9 +16,10 @@ export default class ProductsServices {
         
     };
 
-    static updateById(pid, payload) {
-        return ProductDao.updateById(pid, payload)
-    };
+    static async updateById(pid, data) {
+        const updatedProduct = await ProductDao.updateById(pid, data);
+        return updatedProduct;
+    }
 
     static deleteById(pid){
         return ProductDao.deleteById(pid);

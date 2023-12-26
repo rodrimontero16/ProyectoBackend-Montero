@@ -13,7 +13,7 @@ export default class CartsController {
     };
 
     static async getById(cid){
-        const cart = await CartsServices.getById(cid).populate('products.product').exec();
+        const cart = await CartsServices.getById(cid).populate('products.product').populate('user').exec();
         if (!cart){
             throw new Exception('El carrito no existe ❌', 404);
         }
@@ -107,5 +107,30 @@ export default class CartsController {
         cartProduct.quantity = quantity;
         await cart.save();
         return cart;
+    };
+
+    static async completePurchase (cid){
+        const cart = await CartsServices.getById(cid);
+        let success = true;
+        const failedProducts = [];
+
+        for (const prod of cart.products){
+            const product = await ProductsControllers.getById(prod.product);
+
+            if(product && product.stock >= prod.quantity){
+                product.stock -= prod.quantity;
+                await product.save();
+            } else {
+                success = false; 
+                failedProducts.push({
+                    product: prod.product,
+                    quantity: prod.quantity
+                });
+            };
+        }
+
+        
+
+
     }
 };

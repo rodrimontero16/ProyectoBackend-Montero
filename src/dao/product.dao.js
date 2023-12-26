@@ -15,7 +15,7 @@ export default class ProductDao {
     };
 
     static updateById(pid, data) {
-        return productModel.updateOne({_id: pid}, {$set: data})
+        return productModel.findByIdAndUpdate(pid, data, { new: true });
     };
 
     static deleteById(pid){

@@ -33,7 +33,7 @@
                         <td>${{this.totalPrice}}</td>
                     </tr>
                 {{/each}}
-            {{/if}}
+            
         </tbody>
         <tfoot>
             <td colspan="2"></td>
@@ -41,4 +41,9 @@
             <td>${{totalCompra}}</td>
         </tfoot>
     </table>
+    <form action="/api/carts/6581f8b4b04dfeecedf1c999/purchase" method="post">
+        <button><input type="submit" value="Comprar"></button>
+    </form>
+    {{/if}}
+
 </div>
