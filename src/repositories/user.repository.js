@@ -11,18 +11,15 @@ export default class UserRepository {
     }
 
     async create(data){
-        const [first_name, last_name] = data.fullName.splite(' ');
-        const newData = {
-            first_name,
-            last_name,
-            email,
-            id
+        const user = await this.dao.create(data);
+        if (!user) {
+            throw new Error("Usuario no creado");
         }
-        const user = await this.dao.create(newData);
-        return new UserDTO(user);
+
+        return user;
     }
 
-    updateById(uid, data){
+    async updateById(uid, data){
         return this.dao.updateById(uid, data);
     }
 
@@ -32,7 +29,7 @@ export default class UserRepository {
 
     async getOne(criteria){
         const user = await this.dao.getOne(criteria);
-        return new UserDTO(user);
+        return user ? new UserDTO(user) : null;
     }
 
     getById(uid){

@@ -2,24 +2,23 @@ import  { userRepository } from "../repositories/index.js";
 
 export default class UsersServices {
     static async create(payload) {
-        const user = await userRepository.create(payload);
-        console.log(`Usuario creado correctamente. ID: ${user._id}`); 
-        return user;
+        return userRepository.create(payload);
     };
 
     static get(filter = {}) {
         return userRepository.get(filter);
     };
 
-    static getOne(criteria){
-        return userRepository.getOne(criteria)
+    static async getOne(criteria){
+        const user = await userRepository.getOne(criteria);
+        return user ? user : null;
     }
 
     static getById(uid) {
         return userRepository.getById(uid);
     };
 
-    static updateById(uid, payload) {
+    static async updateById(uid, payload) {
         return userRepository.updateById(uid, payload)
     };
 

@@ -23,6 +23,9 @@ export default {
     github: {
         clientId: process.env.CLIENTID,
         clientSecret: process.env.CLIENTSECRET
+    },
+    gmail: {
+        userGmail: process.env.GMAIL_USER,
+        passGmail: process.env.GMAIL_PASSWORD
     }
-
 }

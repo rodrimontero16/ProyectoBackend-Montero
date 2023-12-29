@@ -1,11 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema({
-    first_name: String,
-    last_name: String,
+    first_name: { type: String, require: true },
+    last_name: { type: String, require: true },
     email: { type: String, unique: true },
-    age: Number,
-    password: String,
+    age: { type: Number, require: true },
+    password: { type: String, require: true },
     role: { type: String, default: 'user', enum: ['user', 'admin']},
     provider: { type: String, default: 'register' },
     cart: { type: mongoose.Schema.Types.ObjectId, ref: 'Cart' },

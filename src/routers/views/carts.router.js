@@ -63,4 +63,14 @@ router.get('/carts/:cid', async (req, res, next) => {
     }
 });
 
+router.get('carts/:cid/purchase', async (req,res, next) =>{
+    try {
+        const { cid } = req.params; 
+        
+    } catch (error) {
+        console.log('Ocurrio un error durante la busqueda del carrito del cliente');
+        next(error);
+    }
+})
+
 export default router;

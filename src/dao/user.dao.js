@@ -5,7 +5,11 @@ export default class userDao {
         return userModel.create(data);
     };
 
-    get(criteria = {}) {
+    get(filter = {}) {
+        const criteria = {};
+        if (filter.id){
+            criteria._id = id;
+        }
         return userModel.find(criteria);
     };
 

@@ -46,4 +46,8 @@ router.get('/recovery-password', (req, res) => {
     res.render('recovery-password', { style:'recovery.css' ,titlePage: 'Recuperar contraseña'});
 });
 
+router.get('/new-password', (req, res) => {
+    res.render('newPassword', { titlePage: 'Nueva contraseña' });
+});
+
 export default router;
