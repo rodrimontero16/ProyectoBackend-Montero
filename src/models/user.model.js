@@ -9,6 +9,7 @@ const userSchema = new Schema({
     role: { type: String, default: 'user', enum: ['user', 'admin']},
     provider: { type: String, default: 'register' },
     cart: { type: mongoose.Schema.Types.ObjectId, ref: 'Cart' },
+    phone: { type: Number, unique: true },
     jwtToken: String
 }, { timestamps: true });
 

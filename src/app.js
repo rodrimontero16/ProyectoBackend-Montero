@@ -16,7 +16,7 @@ import productsViewsRouter from './routers/views/products.router.js';
 import cartsViewsRouter from './routers/views/carts.router.js';
 import indexRouter from './routers/views/index.router.js';
 import authApiRouter from './routers/api/auth.router.js';
-import emailApiRouter from './routers/api/email.router.js';
+import notificationsApiRouter from './routers/api/notifications.router.js';
 
 //Logic express + cookies 
 const app = express();
@@ -47,7 +47,7 @@ app.use(passport.initialize());
 app.use('/api/products', productsApiRouter);
 app.use('/api/carts', cartsApiRouter);
 app.use('/api/auth', authApiRouter);
-app.use('/api/email', emailApiRouter);
+app.use('/api', notificationsApiRouter);
 
 //Routers views
 app.use('/', productsViewsRouter, cartsViewsRouter, indexRouter);
