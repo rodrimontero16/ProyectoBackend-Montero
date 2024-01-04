@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import ProductsControllers from '../../controllers/product.controller.js';
 import passport from "passport";
-import { authorizationMiddleware } from '../../utils.js';
+import { authorizationMiddleware, generateProducts } from '../../utils.js';
 
 
 const router = Router();
@@ -68,5 +68,15 @@ export const buildResponse = (data, titlePage, style, route, user, userCartID) =
     nextLink: data.hasNextPage ? `http://localhost:8080/${route}?limit=${data.limit}&page=${data.nextPage}${data.category ? `&category=${data.category}` : ''}${data.sort ? `&sort=${data.sort}` : ''}` : '',
     };
 };
+
+//ProductsMocking
+router.get('/mockingproducts', async (req, res) => {
+    const productsMocking = [];
+    const limit = 100;
+    for (let index = 0; index < limit; index++){
+        productsMocking.push(generateProducts());
+    }
+    res.status(200).json(productsMocking);
+})
 
 export default router;
