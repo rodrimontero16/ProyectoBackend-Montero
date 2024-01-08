@@ -3,11 +3,12 @@ import express from 'express';
 import passport from 'passport';
 import path from 'path';
 import handlebars from 'express-handlebars';
-import { __dirname } from './utils.js'
+import { __dirname } from './utils/utils.js'
 import { init as initPassportConfig } from'./config/passport.config.js';
 import cookieParser from 'cookie-parser';
 import config from './config.js';
 import cors from 'cors';
+import ErrorHandler from './middlewares/ErrorHandler.js';
 
 //Routes
 import productsApiRouter from './routers/api/products.router.js';
@@ -24,7 +25,7 @@ const COOKIE_SECRET = config.secret.cookieSecret;
 app.use(cookieParser(COOKIE_SECRET));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../../public')));
 
 //cors
 const corsOptions = {
@@ -35,7 +36,7 @@ app.use(cors(corsOptions));
 
 //Logic handlebars
 app.engine('handlebars', handlebars.engine()); //motor que uso  
-app.set('views', path.join(__dirname, 'views')); //Ruta de las plantillas
+app.set('views', path.join(__dirname, '../views')); //Ruta de las plantillas
 app.set('view engine', 'handlebars'); //Extension de las vistas
 
 //Passport
@@ -57,10 +58,6 @@ app.get('*', (req, res) => {
 })
 
 //Middlewares error
-app.use((error, req, res, next) => {
-    const message = `😨 Ah ocurrido un error desconocido: ${error.message}`;
-    console.log(message);
-    res.status(500).json({ status: 'error', message });
-});
+app.use(ErrorHandler);
 
 export default app;

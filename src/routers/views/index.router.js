@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { verifyToken, isAdmin } from '../../utils.js';
+import { verifyToken, isAdmin } from '../../utils/utils.js';
 
 const router = Router();
 

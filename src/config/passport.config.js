@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as GithubStrategy } from 'passport-github2';
 import { Strategy as JwtStrategy, ExtractJwt} from 'passport-jwt';
-import { JWT_SECRET } from '../utils.js';
+import { JWT_SECRET } from '../utils/utils.js';
 import UserControllers from '../controllers/users.controller.js'
 import config from '../config.js';
 

@@ -1,5 +1,5 @@
 import ProductsServices from "../services/product.services.js";
-import { Exception } from "../utils.js";
+import { Exception } from "../utils/utils.js";
 
 export default class ProductsControllers {
     static async get(){

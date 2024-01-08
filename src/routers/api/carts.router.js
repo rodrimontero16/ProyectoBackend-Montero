@@ -2,7 +2,7 @@ import { Router } from "express";
 import  CartsController  from "../../controllers/carts.controller.js";
 import TicketsController from "../../controllers/ticket.controller.js";
 import passport from "passport";
-import { authorizationMiddleware } from "../../utils.js";
+import { authorizationMiddleware } from "../../utils/utils.js";
 
 const router = Router();
 

@@ -1,5 +1,5 @@
 import CartsServices from "../services/cart.services.js";
-import { Exception } from "../utils.js";
+import { Exception } from "../utils/utils.js";
 import ProductsControllers from "../controllers/product.controller.js"
 
 export default class CartsController {

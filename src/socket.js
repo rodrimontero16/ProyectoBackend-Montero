@@ -1,5 +1,5 @@
 import { Server } from 'socket.io';
-import { __dirname } from './utils.js';
+import { __dirname } from './utils/utils.js';
 import ProductsControllers from './controllers/product.controller.js';
 import CartsController from './controllers/carts.controller.js';
 import mongoose from 'mongoose';

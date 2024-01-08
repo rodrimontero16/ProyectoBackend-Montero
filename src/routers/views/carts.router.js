@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import  CartsController from '../../controllers/carts.controller.js';
 import passport from 'passport';
-import { authorizationMiddleware, calcularTotal } from '../../utils.js';
+import { authorizationMiddleware, calcularTotal } from '../../utils/utils.js';
 
 const router = Router();
 
