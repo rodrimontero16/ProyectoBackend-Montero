@@ -6,9 +6,10 @@ import handlebars from 'express-handlebars';
 import { __dirname } from './utils/utils.js'
 import { init as initPassportConfig } from'./config/passport.config.js';
 import cookieParser from 'cookie-parser';
-import config from './config.js';
+import config from './config/config.js';
 import cors from 'cors';
 import ErrorHandler from './middlewares/ErrorHandler.js';
+import { addLogger } from './config/logger.js'
 
 //Routes
 import productsApiRouter from './routers/api/products.router.js';
@@ -22,6 +23,7 @@ import notificationsApiRouter from './routers/api/notifications.router.js';
 //Logic express + cookies 
 const app = express();
 const COOKIE_SECRET = config.secret.cookieSecret;
+app.use(addLogger);
 app.use(cookieParser(COOKIE_SECRET));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

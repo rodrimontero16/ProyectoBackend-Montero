@@ -2,7 +2,7 @@ import path from 'path';
 import bcrypt from 'bcrypt';
 import  JWT from 'jsonwebtoken';
 import { fileURLToPath } from 'url';
-import config from '../config.js';
+import config from '../config/config.js';
 import { faker } from '@faker-js/faker';
 
 

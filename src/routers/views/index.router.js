@@ -50,4 +50,14 @@ router.get('/new-password', (req, res) => {
     res.render('newPassword', { titlePage: 'Nueva contraseña' });
 });
 
+router.get('/loggerTest', async (req, res) => {
+    req.logger.debug('Esta es una prueba de log debug');
+    req.logger.http('Esta es una prueba de log http');
+    req.logger.info('Esta es una prueba de log info');
+    req.logger.warning('Esta es una prueba de log warning');
+    req.logger.error('Esta es una prueba de log error');
+    req.logger.fatal('Esta es una prueba de log fatal');
+    res.status(200).send('ok');
+})
+
 export default router;

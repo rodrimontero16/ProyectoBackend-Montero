@@ -1,5 +1,5 @@
 import twilio  from "twilio";
-import config from "../config.js";
+import config from "../config/config.js";
 
 class twilioService {
     constructor() {

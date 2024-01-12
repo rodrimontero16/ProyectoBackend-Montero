@@ -19,7 +19,7 @@ router.get('/sendEmail', async (req, res, next) =>{
         console.log('envio de correo', result);
         res.status(200).json({message: 'Correo enviado correctamente'})
     } catch (error) {
-        console.error(error);
+        req.logger.error('Error al enviar correo')
         next();
     }
 });
@@ -34,7 +34,7 @@ router.get('/sendSMS', async (req, res, next) => {
         console.log('envio de sms', result);
         res.status(200).json({message: 'Mensaje enviado correctamente'})
     } catch (error) {
-        console.error(error);
+        req.logger.error('Error al enviar SMS')
         next();
     }
 });

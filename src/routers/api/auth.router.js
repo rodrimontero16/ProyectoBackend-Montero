@@ -40,7 +40,7 @@ router.post('/register', async (req, res) =>{
         await newUser.save();
         res.status(201).redirect('/login');
     } catch (error) {
-        console.error(error);
+        req.logger.error('Error al intentar registrar un nuevo usuario')
         res.status(400).json({ error: error.message });
     }
 });
@@ -73,7 +73,7 @@ router.post('/login', async (req, res) => {
             .status(200)
             .redirect('/');
     } catch (error) {
-        console.error(error);
+        req.logger.error('Error al intentar iniciar sesion')
         res.status(400).json({ error: error.message });
     }
 });
@@ -106,7 +106,7 @@ router.post('/recovery-password', async (req, res, next) => {
         );
         res.redirect('/login');
     } catch (error) {
-        console.error(error);
+        req.logger.error('Error al intentar recuperar la contraseña')
         res.status(400).json({ error: error.message });
     }
 });
@@ -127,7 +127,7 @@ router.post('/new-password', async (req, res) => {
     const userUpdate = await UsersControllers.updateById(user.id , { password: hashedPassword });
     res.redirect('/login');
     } catch (error) {
-        console.error(error);
+        req.logger.error('Error al intentar cambiar la contraseña')
         res.status(400).json({ error: error.message });
     }
 });
@@ -142,6 +142,7 @@ router.get('/github/callback', passport.authenticate('github', { failureRedirect
         .status(200)
         .redirect('/');
     } catch (error) {
+        req.logger.fatal('Error al intentar iniciar sesion con github')
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });

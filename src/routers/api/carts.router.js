@@ -16,7 +16,7 @@ router.post('/',
             const newCart = await CartsController.create(body);
             res.status(201).json(newCart);
         } catch (error) {
-            console.log('Ha ocurrido un error al crear el carrito');
+            req.logger.error('Error al crear el carrito')
             next(error);
         }
 });
@@ -25,25 +25,27 @@ router.post('/',
 router.post('/:cid/products/:pid',
     passport.authenticate('jwt', { session: false }),
     authorizationMiddleware('user'),
-    async (req,res) =>{
+    async (req,res, next) =>{
         try {
             const { cid } = req.params;
             const { pid } = req.params;
             const cart = await CartsController.addProduct(cid, pid)
             res.status(200).json(cart);
         } catch (error) {
-            res.status(error.status || 500).json({ message: error.message });
+            req.logger.error('Error al agregar producto al carrito')
+            next(error);
         }
 });
 
 //Eliminar producto del carrito
-router.delete('/:cid/products/:pid', async (req, res) =>{
+router.delete('/:cid/products/:pid', async (req, res, next) =>{
     try {
         const {cid, pid} = req.params;
         const cart = await CartsController.deleteProduct(cid, pid);
         res.status(200).json(cart);
     } catch (error) {
-        res.status(error.status || 500).json({ message: error.message });
+        req.logger.error('Error al eliminar producto del carrito')
+        next(error);
     }
 });
 
@@ -56,7 +58,8 @@ router.put('/:cid', async (req, res) => {
         const cart = await CartsController.updateCart(cid, products);
         res.status(200).json(cart);
     } catch (error) {
-        res.status(error.statusCode || 500).json({ message: error.message });
+        req.logger.error('Error al actualizar el carrito')
+        next(error);
     }
 });
 
@@ -79,7 +82,8 @@ router.delete('/:cid', async (req, res) =>{
         const cart = await CartsController.clearCart(cid);
         res.status(200).json(cart);
     } catch (error) {
-        res.status(error.status || 500).json({ message: error.message });
+        req.logger.error('Error al vaciar el carrito')
+            next(error);
     }
 });
 
@@ -109,7 +113,8 @@ router.post('/:cid/purchase',
                 )
             
         } catch (error) {
-            res.status(error.status || 500).json({ message: error.message });
+            req.logger.fatal('Error al finalizar la compra')
+            next(error);
         }
 })
 
