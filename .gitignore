@@ -27,4 +27,4 @@ dist-ssr
 *.txt
 
 # Variables de entorno 
-.env
+*.env
