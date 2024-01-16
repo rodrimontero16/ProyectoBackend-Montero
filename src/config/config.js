@@ -1,13 +1,4 @@
-import dotenv from 'dotenv';
-
-let pathEnvFile = null;
-
-if (process.env.ENV !== 'production') {
-    pathEnvFile = './.env.dev';
-} else {
-    pathEnvFile = './.env.prod';
-}
-dotenv.config({ path: pathEnvFile });
+import "dotenv/config.js"
 
 export default {
     port: process.env.PORT || 8080,
