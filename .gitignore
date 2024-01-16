@@ -27,5 +27,4 @@ dist-ssr
 *.txt
 
 # Variables de entorno 
-.env.dev
-.env.prod
+.env
