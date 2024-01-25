@@ -66,7 +66,7 @@ export class Exception extends Error {
 
 //Funcion para verificar si es admin
 export const isAdmin = (role) => {
-    return role === 'admin'
+    return role === 'admin' || role === 'premium'
 };
 
 //Calcular total de carritos

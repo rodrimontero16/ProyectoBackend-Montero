@@ -16,6 +16,10 @@ export default class ProductsServices {
         
     };
 
+    static findOne(query) {
+        return ProductDao.findOne(query);
+    }
+
     static async updateById(pid, data) {
         const updatedProduct = await ProductDao.updateById(pid, data);
         return updatedProduct;

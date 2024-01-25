@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
             const user = await verifyToken(token);
             if (user.role === 'admin') {
                 return res.redirect('/api/products');
-            } else if (user.role === 'user') {
+            } else {
                 return res.redirect('/products');
             }
         } catch (error) {
@@ -20,7 +20,6 @@ router.get('/', async (req, res) => {
             return res.redirect('/login');
         }
     }
-
     res.redirect('/login');
 });
 
@@ -36,7 +35,7 @@ router.get('/profile', async (req, res) => {
     try {
         const token = req.signedCookies['access_token'];
         const user = await verifyToken(token);
-        res.render('profile', { style: 'profile.css', titlePage: 'Profile', user, isAdmin: isAdmin(user.role) });
+        res.render('profile', { style: 'login.css', titlePage: 'Profile', user, isAdmin: isAdmin(user.role) });
     } catch (error) {
         console.error(error);
         res.redirect('/login');

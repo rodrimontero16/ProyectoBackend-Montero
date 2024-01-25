@@ -20,7 +20,7 @@ export const init = (httpServer) => {
                 };
 
                 try {
-                    const existingProduct = await ProductsControllers.findOne({ code: newProduct.code });
+                    const existingProduct = await ProductsControllers.findOne( {code: newProduct.code} );
                     if (existingProduct) {
                         console.log(`El producto con code: ${newProduct.code} ya existe`);
                         socketClient.emit('prod-existente');

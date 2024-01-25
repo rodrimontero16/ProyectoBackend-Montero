@@ -9,7 +9,7 @@ const router = Router();
 //Crear un carrito
 router.post('/', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin', 'premium'),    
+    authorizationMiddleware(['admin', 'premium']),    
     async (req, res, next) => {
         try {
             const { body } = req;
@@ -24,7 +24,7 @@ router.post('/',
 //Agregar un product al cart
 router.post('/:cid/products/:pid',
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('user', 'premium'),
+    authorizationMiddleware(['user', 'premium']),
     async (req,res, next) =>{
         try {
             const { cid } = req.params;
@@ -90,7 +90,7 @@ router.delete('/:cid', async (req, res) =>{
 //Finalizar compra
 router.post('/:cid/purchase',
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('user', 'premium'),
+    authorizationMiddleware(['user', 'premium']),
     async (req, res) =>{
         try {
             const { cid } = req.params; 

@@ -8,7 +8,7 @@ const router = Router();
 //Obtengo products por id 
 router.get('/:pid', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin', 'premium'),
+    authorizationMiddleware(['admin', 'premium']),
     async (req, res) => {
         try {
             const { pid } = req.params;
@@ -22,10 +22,11 @@ router.get('/:pid',
 //Crear products 
 router.post('/', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin', 'premium'),
+    authorizationMiddleware(['admin', 'premium']),
     async (req, res) => {
         const { body } = req;
-        const newProduct = {...body}
+        const user = req.user;
+        const newProduct = {...body, owner: user.email}
         const product = await ProductsControllers.create(newProduct);
         res.status(201).json(product);
 });
@@ -33,7 +34,7 @@ router.post('/',
 //Actualizar product 
 router.put('/:pid', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin', 'premium'),
+    authorizationMiddleware(['admin', 'premium']),
     async (req, res) => {
         try {
             const { params: { pid }, body } = req;
@@ -47,12 +48,21 @@ router.put('/:pid',
 //Eliminar product 
 router.delete('/:pid', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin', 'premium'),
+    authorizationMiddleware(['admin', 'premium']),
     async (req, res) => {
         try {
             const { pid } = req.params;
+            const { role } = req.user;
+
+            if(role === 'premium'){
+                const { email } = req.user;
+                const product = await ProductsControllers.getById(pid);
+                if(product.owner !== email){
+                    return res.status(400).json('No tiene permisos para eliminar este producto.')
+                } 
+            }
             await ProductsControllers.deleteById(pid);
-            res.status(204).end();
+            res.status(204).json('Producto eliminado correctamente.');
         } catch (error) {
             res.status(error.statusCode || 500).json({ message: error.message });
         }

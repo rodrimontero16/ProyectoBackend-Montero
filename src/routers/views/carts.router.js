@@ -9,7 +9,7 @@ const router = Router();
 //CartsManager
 router.get('/api/carts',
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin', 'premium'),
+    authorizationMiddleware(['admin', 'premium']),
     async (req, res, next) =>{
         try {
             const cart = await CartsController.get(req.query);
@@ -30,7 +30,7 @@ router.get('/api/carts',
 //Obtengo un carrito especifico
 router.get('/api/carts/:cid', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin', 'premium'),
+    authorizationMiddleware(['admin', 'premium']),
     async (req, res, next) => {
         try {
             const { cid } = req.params;

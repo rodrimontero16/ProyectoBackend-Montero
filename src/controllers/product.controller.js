@@ -2,8 +2,8 @@ import ProductsServices from "../services/product.service.js";
 import { Exception } from "../utils/utils.js";
 
 export default class ProductsControllers {
-    static async get(){
-        return await ProductsServices.get();
+    static async get(query){
+        return await ProductsServices.get(query);
     };
 
     static async getById(pid){
@@ -21,7 +21,7 @@ export default class ProductsControllers {
     };
     
     static async findOne(query) {
-        return await ProductsServices.get(query);
+        return await ProductsServices.findOne(query);
     }
 
     static async updateById(pid, data){

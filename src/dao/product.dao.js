@@ -14,6 +14,10 @@ export default class ProductDao {
         
     };
 
+    static findOne(query) {
+        return productModel.findOne(query);
+    }
+
     static updateById(pid, data) {
         return productModel.findByIdAndUpdate(pid, data, { new: true });
     };

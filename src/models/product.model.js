@@ -10,7 +10,7 @@ const productSchema = new Schema({
     price: { type: Number, require: true },
     stock: { type: Number, require: true },
     status: { type: Boolean, default: true, enum: [true, false] },
-    owner:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: 'admin' }
+    owner:{ type: String, default: 'admin' }
 }, { timestamps: true });
 
 productSchema.plugin(mongoosePaginate);
