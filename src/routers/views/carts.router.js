@@ -9,7 +9,7 @@ const router = Router();
 //CartsManager
 router.get('/api/carts',
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin'),
+    authorizationMiddleware('admin', 'premium'),
     async (req, res, next) =>{
         try {
             const cart = await CartsController.get(req.query);
@@ -30,7 +30,7 @@ router.get('/api/carts',
 //Obtengo un carrito especifico
 router.get('/api/carts/:cid', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin'),
+    authorizationMiddleware('admin', 'premium'),
     async (req, res, next) => {
         try {
             const { cid } = req.params;
@@ -62,15 +62,5 @@ router.get('/carts/:cid', async (req, res, next) => {
         next(error);
     }
 });
-
-// router.get('carts/:cid/purchase', async (req,res, next) =>{
-//     try {
-//         const { cid } = req.params; 
-        
-//     } catch (error) {
-//         console.log('Ocurrio un error durante la busqueda del carrito del cliente');
-//         next(error);
-//     }
-// })
 
 export default router;

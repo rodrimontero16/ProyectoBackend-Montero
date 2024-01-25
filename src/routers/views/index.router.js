@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { verifyToken, isAdmin } from '../../utils/utils.js';
+import JWT from "jsonwebtoken";
+import config from "../../config/config.js";
 
 const router = Router();
 
@@ -46,8 +48,15 @@ router.get('/recovery-password', (req, res) => {
     res.render('recovery-password', { style:'recovery.css' ,titlePage: 'Recuperar contraseña'});
 });
 
-router.get('/new-password', (req, res) => {
-    res.render('newPassword', { titlePage: 'Nueva contraseña' });
+router.get('/new-password/:token', (req, res) => {
+    try {
+        const { token } = req.params;
+        const tokenEmail = JWT.verify(token, config.secret.jwtSecret);
+        res.render('newPassword', { titlePage: 'Nueva contraseña' });
+    } catch (error) {
+        res.status(401).render('tokenExpired', { style:'recovery.css' ,titlePage: 'Recuperar contraseña'});
+    }
+    
 });
 
 router.get('/loggerTest', async (req, res) => {

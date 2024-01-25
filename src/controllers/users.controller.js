@@ -1,4 +1,4 @@
-import UsersServices from "../services/user.services.js";
+import UsersServices from "../services/user.service.js";
 
 export default class UsersControllers {
     static async create(payload) {

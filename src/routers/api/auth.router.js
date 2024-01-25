@@ -1,12 +1,14 @@
 import { Router } from "express";
 import UsersControllers from "../../controllers/users.controller.js";
-import { createHash, isValidPassword, tokenGenerator } from "../../utils/utils.js";
+import { createHash, isValidPassword, tokenGenerator, verifyToken } from "../../utils/utils.js";
 import CartsController from "../../controllers/carts.controller.js";
 import passport from "passport";
-import emailServices from "../../services/email.services.js";
-import { CustomError } from '../../utils/CustomError.js'
-import { generatorRegisterError, generatorLoginError, generatorRecoveryError } from '../../utils/CauseMessageError.js'
-import  EnumsError  from '../../utils/EnumsError.js'
+import emailServices from "../../services/email.service.js";
+import { CustomError } from '../../utils/CustomError.js';
+import { generatorRegisterError, generatorLoginError, generatorRecoveryError } from '../../utils/CauseMessageError.js';
+import  EnumsError  from '../../utils/EnumsError.js';
+import JWT from "jsonwebtoken";
+import config from "../../config/config.js";
 
 const router = Router();
 
@@ -96,36 +98,48 @@ router.post('/recovery-password', async (req, res, next) => {
                 code: EnumsError.INVALID_PARAMS_ERROR
             })
         }
+
+        const token = JWT.sign({ email }, config.secret.jwtSecret, {expiresIn: '20s'});
+        console.log('recovery', token);
+
         const result = await emailServices.sendEmail(
             email, 
             'Recuperar contraseña',
             `<div>
                 <p>Para recuperar tu contraseña, debes ingresar al siguiente enlace: </p>
-                <a href="http://localhost:8080/new-password">AQUI</a>
-            </div>`
+                <a href="http://localhost:8080/new-password/${token}">AQUI</a>
+            </div>
+            <div>
+                <p>El enlace de recuperación vence en 1 hora despues de recibido este correo.</p>
+            </div>
+            `
         );
-        res.redirect('/login');
+        res.status(200).json('Correo enviado correctamente');
     } catch (error) {
         req.logger.error('Error al intentar recuperar la contraseña')
         res.status(400).json({ error: error.message });
     }
 });
 
-router.post('/new-password', async (req, res) => {
-    const { email, newPassword } = req.body;
+router.post('/new-password', async (req, res) => {    
     try {
+        const { email, newPassword } = req.body;
         const user = await UsersControllers.getOne({ email });
-    if (!user) {
-        CustomError.createError({
-            name: 'Error al intentar recuperar la contraseña',
-            cause: generatorRecoveryError({ email }),
-            message: 'El correo proporcionado no existe',
-            code: EnumsError.INVALID_PARAMS_ERROR
-        })
-    }
-    let hashedPassword = createHash(newPassword)
-    const userUpdate = await UsersControllers.updateById(user.id , { password: hashedPassword });
-    res.redirect('/login');
+        if (!user) {
+            CustomError.createError({
+                name: 'Error al intentar recuperar la contraseña',
+                cause: generatorRecoveryError({ email }),
+                message: 'El correo proporcionado no existe',
+                code: EnumsError.INVALID_PARAMS_ERROR
+            })
+        }
+        const isPassValid = isValidPassword(newPassword, user);
+        if(isPassValid){
+            res.status(400).json('La contraseña que intenta utilizar ya se utilizo anteriormente')
+        }
+        let hashedPassword = createHash(newPassword)
+        const userUpdate = await UsersControllers.updateById(user.id , { password: hashedPassword });
+        res.redirect('/login');
     } catch (error) {
         req.logger.error('Error al intentar cambiar la contraseña')
         res.status(400).json({ error: error.message });

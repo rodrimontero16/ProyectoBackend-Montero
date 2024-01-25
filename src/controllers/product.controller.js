@@ -1,4 +1,4 @@
-import ProductsServices from "../services/product.services.js";
+import ProductsServices from "../services/product.service.js";
 import { Exception } from "../utils/utils.js";
 
 export default class ProductsControllers {

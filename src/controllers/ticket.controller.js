@@ -1,4 +1,4 @@
-import TicketsServices from "../services/ticket.services.js";
+import TicketsServices from "../services/ticket.service.js";
 import CartsController from "./carts.controller.js";
 import ProductsControllers from "./product.controller.js";
 import { v4 as uuidv4 } from 'uuid';

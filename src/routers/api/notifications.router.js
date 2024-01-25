@@ -1,6 +1,6 @@
 import { Router } from "express";
-import EmailService from "../../services/email.services.js";
-import twilioServices from "../../services/twilio.services.js";
+import EmailService from "../../services/email.service.js";
+import twilioServices from "../../services/twilio.service.js";
 
 const router = Router();
 

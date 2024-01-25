@@ -21,6 +21,7 @@ class EmailService {
             attachments
         })
     }
+
 };
 
 export default new EmailService();

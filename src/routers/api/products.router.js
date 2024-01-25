@@ -8,7 +8,7 @@ const router = Router();
 //Obtengo products por id 
 router.get('/:pid', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin'),
+    authorizationMiddleware('admin', 'premium'),
     async (req, res) => {
         try {
             const { pid } = req.params;
@@ -19,10 +19,10 @@ router.get('/:pid',
         }    
 });
 
-//Agrego products 
+//Crear products 
 router.post('/', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin'),
+    authorizationMiddleware('admin', 'premium'),
     async (req, res) => {
         const { body } = req;
         const newProduct = {...body}
@@ -33,7 +33,7 @@ router.post('/',
 //Actualizar product 
 router.put('/:pid', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin'),
+    authorizationMiddleware('admin', 'premium'),
     async (req, res) => {
         try {
             const { params: { pid }, body } = req;
@@ -47,7 +47,7 @@ router.put('/:pid',
 //Eliminar product 
 router.delete('/:pid', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware('admin'),
+    authorizationMiddleware('admin', 'premium'),
     async (req, res) => {
         try {
             const { pid } = req.params;

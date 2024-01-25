@@ -9,7 +9,8 @@ const productSchema = new Schema({
     thumbnails: { type: Array, default: [] },
     price: { type: Number, require: true },
     stock: { type: Number, require: true },
-    status: { type: Boolean, default: true, enum: [true, false] }
+    status: { type: Boolean, default: true, enum: [true, false] },
+    owner:{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: 'admin' }
 }, { timestamps: true });
 
 productSchema.plugin(mongoosePaginate);

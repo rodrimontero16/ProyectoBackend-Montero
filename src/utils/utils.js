@@ -31,7 +31,7 @@ export const tokenGenerator = (user) => {
         role
     };
 
-    return JWT.sign(payload, JWT_SECRET, { expiresIn: '30m' });
+    return JWT.sign(payload, JWT_SECRET, { expiresIn: '1h' });
 };
 
 export const verifyToken = (token) => {
