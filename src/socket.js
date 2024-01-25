@@ -16,6 +16,7 @@ export const init = (httpServer) => {
             const newProduct = { 
                 status: true,
                 thumbnails: [],
+                owner: 'admin',
                 ...product
                 };
 

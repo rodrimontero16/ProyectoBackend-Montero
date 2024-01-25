@@ -3,7 +3,7 @@ import ProductDao from "../dao/product.dao.js";
 export default class ProductsServices {
     static async create(payload) {
         const product = await ProductDao.create(payload);
-        console.log(`Carrito creado correctamente. ID: ${product._id}`); 
+        console.log(`Producto creado correctamente. ID: ${product._id}`); 
         return product;
     };
 

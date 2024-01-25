@@ -99,7 +99,7 @@ router.post('/recovery-password', async (req, res, next) => {
             })
         }
 
-        const token = JWT.sign({ email }, config.secret.jwtSecret, {expiresIn: '20s'});
+        const token = JWT.sign({ email }, config.secret.jwtSecret, {expiresIn: '1h'});
         console.log('recovery', token);
 
         const result = await emailServices.sendEmail(

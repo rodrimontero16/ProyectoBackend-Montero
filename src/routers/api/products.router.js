@@ -24,11 +24,19 @@ router.post('/',
     passport.authenticate('jwt', { session: false }),
     authorizationMiddleware(['admin', 'premium']),
     async (req, res) => {
-        const { body } = req;
-        const user = req.user;
-        const newProduct = {...body, owner: user.email}
-        const product = await ProductsControllers.create(newProduct);
-        res.status(201).json(product);
+        try {
+            const { body } = req;
+            const user = req.user;
+            const newProduct = {...body};
+
+            let product = await ProductsControllers.create(newProduct);
+            product.owner = user.email;
+            await product.save();
+
+            res.status(201).json(product);
+        } catch (error) {
+            res.status(error.statusCode || 500).json({ message: error.message });
+        }
 });
 
 //Actualizar product 

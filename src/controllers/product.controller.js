@@ -16,7 +16,7 @@ export default class ProductsControllers {
 
     static async create(data){
         const newProduct = await ProductsServices.create(data); 
-        console.log('Producto agregado correctamente ✔️');
+        console.log('Producto agregado correctamente ✔️', newProduct);
         return newProduct;
     };
     
