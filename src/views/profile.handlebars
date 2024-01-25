@@ -21,3 +21,8 @@
     <p>Correo: {{user.email}}</p>
     <p>Permisos: {{user.role}}</p>
 </article>
+<a href="#">
+    <form method="POST" action="/api/users/premium/{{user.id}}">
+        <button type="submit">Cambiar rol de usuario</button>
+    </form>
+</a>

@@ -25,5 +25,4 @@ export default class UsersServices {
     static deleteById(uid){
         return userRepository.deleteById(uid);
     };
-    
 }

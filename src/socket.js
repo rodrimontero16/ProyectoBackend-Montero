@@ -43,7 +43,7 @@ export const init = (httpServer) => {
                 return;
             }
             try {
-                await ProductManager.deleteById(prodId);
+                await ProductsControllers.deleteById(prodId);
                 const products = await ProductsControllers.get();
                 socketClient.emit('prod-delete', products);
             } catch (error) {

@@ -52,12 +52,11 @@ router.delete('/:pid',
     async (req, res) => {
         try {
             const { pid } = req.params;
-            const { role } = req.user;
+            const user = req.user;
 
-            if(role === 'premium'){
-                const { email } = req.user;
+            if(user.role === 'premium'){
                 const product = await ProductsControllers.getById(pid);
-                if(product.owner !== email){
+                if(product.owner !== user.email){
                     return res.status(400).json('No tiene permisos para eliminar este producto.')
                 } 
             }
