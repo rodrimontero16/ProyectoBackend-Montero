@@ -28,11 +28,13 @@ router.post('/',
             const { body } = req;
             const user = req.user;
             const newProduct = {...body};
-
-            let product = await ProductsControllers.create(newProduct);
-            product.owner = user.email;
+            const product = await ProductsControllers.create(newProduct);
+            if (user.role === 'premium'){
+                // await ProductsControllers.updateById(product._id, {owner: user.email})
+                product.owner = user.email;
+            }
             await product.save();
-
+            console.log('producto creado', product);
             res.status(201).json(product);
         } catch (error) {
             res.status(error.statusCode || 500).json({ message: error.message });

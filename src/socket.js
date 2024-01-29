@@ -14,12 +14,10 @@ export const init = (httpServer) => {
         
         socketClient.on('new-product', async (product) => {
             const newProduct = { 
-                status: true,
+                status: product.stock > 0 ? true : false,
                 thumbnails: [],
-                owner: 'admin',
                 ...product
                 };
-
                 try {
                     const existingProduct = await ProductsControllers.findOne( {code: newProduct.code} );
                     if (existingProduct) {

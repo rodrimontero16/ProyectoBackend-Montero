@@ -45,16 +45,33 @@
 
 
     //Envio la info desde el front al backend
-    formAddProduct.addEventListener('submit', (event) =>{
+    formAddProduct.addEventListener('submit', async (event) =>{
         event.preventDefault();
         const product = {
             title: infoProduct[0].value,
             description: infoProduct[1].value,
-            code: infoProduct[2].value,
-            price: parseFloat(infoProduct[3].value),
-            stock: parseInt(infoProduct[4].value)
+            category: infoProduct[2].value,
+            code: infoProduct[3].value,
+            price: parseFloat(infoProduct[4].value),
+            stock: parseInt(infoProduct[5].value)
         };
-        socket.emit('new-product', product);
+        try {
+            const response = await fetch('/api/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(product),
+            });
+            if (response.ok) {
+                const product = await response.json();
+                socket.emit('new-product', product);
+            } else {
+                console.error('Error al agregar producto:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error al agregar producto:', error.message);
+        }
         for (const input of infoProduct) {
             input.value = '';
         };
