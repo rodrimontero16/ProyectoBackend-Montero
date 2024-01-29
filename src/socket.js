@@ -4,6 +4,7 @@ import ProductsControllers from './controllers/product.controller.js';
 import CartsController from './controllers/carts.controller.js';
 import mongoose from 'mongoose';
 
+
 let io;
 
 export const init = (httpServer) => {
@@ -13,26 +14,8 @@ export const init = (httpServer) => {
         console.log(`Se ha conectado un nuevo cliente: (${socketClient.id})`)
         
         socketClient.on('new-product', async (product) => {
-            const newProduct = { 
-                status: product.stock > 0 ? true : false,
-                thumbnails: [],
-                ...product
-                };
-                try {
-                    const existingProduct = await ProductsControllers.findOne( {code: newProduct.code} );
-                    if (existingProduct) {
-                        console.log(`El producto con code: ${newProduct.code} ya existe`);
-                        socketClient.emit('prod-existente');
-                        return;
-                    }
-                    else {
-                        await ProductsControllers.create(newProduct);
-                        const products = await ProductsControllers.get();
-                        socketClient.emit('add-prod', products);
-                    };
-                } catch (error) {
-                    console.error('Error al verificar el producto', error.message);
-                }
+            const products = await ProductsControllers.get();
+            socketClient.emit('add-prod', products);
         });
 
         socketClient.on('delete-prod', async (prodId) => {

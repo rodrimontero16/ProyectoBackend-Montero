@@ -98,10 +98,7 @@ router.post('/recovery-password', async (req, res, next) => {
                 code: EnumsError.INVALID_PARAMS_ERROR
             })
         }
-
         const token = JWT.sign({ email }, config.secret.jwtSecret, {expiresIn: '1h'});
-        console.log('recovery', token);
-
         const result = await emailServices.sendEmail(
             email, 
             'Recuperar contraseña',

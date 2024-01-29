@@ -51,9 +51,8 @@
             title: infoProduct[0].value,
             description: infoProduct[1].value,
             category: infoProduct[2].value,
-            code: infoProduct[3].value,
-            price: parseFloat(infoProduct[4].value),
-            stock: parseInt(infoProduct[5].value)
+            price: parseFloat(infoProduct[3].value),
+            stock: parseInt(infoProduct[4].value),
         };
         try {
             const response = await fetch('/api/products', {
