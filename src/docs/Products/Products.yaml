@@ -1,0 +1,206 @@
+paths:
+  /api/products/:
+    get:
+      summary: Listar productos
+      tags:
+        - Products
+      responses:
+        200:
+          description: Los productos fueron obtenidos exitosamente desde la base de datos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        500:
+          description: Error interno del servidor.
+    post:
+      summary: Crear productos
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/createProduct'
+      responses:
+        200:
+          description: Producto creado correctamente.
+        400:
+          description: Error en los datos enviados.
+        500:
+          description: Error interno del servidor.
+
+  /api/products/{pid}:
+    get: 
+      summary: Obtener un producto por su ID.
+      tags: 
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: Identificador del producto.
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto encontrado en la base de datos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        404:
+          description: Producto no encontrado.
+        500:
+          description: Error interno del servidor.
+    put: 
+      summary: Actualizar un producto por su ID.
+      tags: 
+        - Products      
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: Identificador del producto.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/updateProduct'
+      responses:
+        200:
+          description: Producto actualizado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        404:
+          description: Producto no encontrado.
+        500:
+          description: Error interno del servidor.
+    delete: 
+      summary: Eliminar un producto por su ID.
+      tags: 
+        - Products
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: Identificador del producto.
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto eliminado de la base de datos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        404:
+          description: Producto no encontrado.
+        500:
+          description: Error interno del servidor.
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id del producto generado por mongodb.
+        title:
+          type: string
+          description: Titulo del producto.
+        description:
+          type: string
+          description: Descripción del producto.
+        category:
+          type: string
+          description: Categoria a la que pertenece el producto.
+        code:
+          type: string
+          description: Codigo unico de identificacion del producto.
+        thumbnails:
+          type: array
+          description: Array que contiene las imagenes del producto.
+        price:
+          type: number
+          description: Precio del producto.
+        stock:
+          type: number
+          description: Cantidad disponible del producto.
+        status:
+          type: boolean
+          description: Estado del producto, si esta o no disponible.
+        owner:
+          type: string
+          description: Correo del usuario que creo el producto en la base de datos.
+        
+      example:
+        _id: 654b95923dfa2fbe095cad69
+        title: Remera ECO
+        description: Remera oversize unisex
+        category: remeras
+        code: 68as58  
+        thumbnails: []
+        price: 15000
+        stock: 14
+        status: true
+        owner: rodrimontero16@gmail.com
+
+  requestBodies:
+    updateProduct:
+      type: object
+      properties:      
+        title:
+          type: string
+          description: Titulo del producto.
+        description:
+          type: string
+          description: Descripcion del producto.
+        category:
+          type: string
+          description: Categoria a la que pertenece el producto.
+        price:
+          type: number
+          description: Precio del producto.
+        stock:
+          type: number
+          description: Cantidad disponible del producto.
+      example:
+        title: Remera ECO
+        description: Remera oversize unisex
+        category: remeras
+        price: 15000
+        stock: 14
+    createProduct:
+      type: object
+      properties:      
+        title:
+          type: string
+          description: Titulo del producto.
+        description:
+          type: string
+          description: Descripcion del producto.
+        category:
+          type: string
+          description: Categoria a la que pertenece el producto.
+        price:
+          type: number
+          description: Precio del producto.
+        stock:
+          type: number
+          description: Cantidad disponible del producto.
+      example:
+        title: Bermuda ROMA
+        description: Bermuda de jean
+        category: bermudas
+        price: 30000
+        stock: 8
