@@ -40,10 +40,9 @@ router.post('/register', async (req, res) =>{
         const cart = await CartsController.create({user: newUser.id, products: []});
         newUser.cart = cart._id;
         await newUser.save();
-        res.status(201).redirect('/login');
+        res.status(302).redirect('/login');
     } catch (error) {
         req.logger.error('Error al intentar registrar un nuevo usuario')
-        res.status(400).json({ error: error.message });
     }
 });
 
