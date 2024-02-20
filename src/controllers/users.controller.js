@@ -42,6 +42,10 @@ export default class UsersControllers {
     };
     
     static async uploadFile (uid, typeFile, file){
-    
+        const data = {};
+        if (typeFile === 'document'){
+            Object.assign(data, { documents: file.filename });
+        }
+        return UsersServices.updateById(uid, data)
     };
 }
