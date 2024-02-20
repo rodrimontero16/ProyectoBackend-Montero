@@ -10,6 +10,8 @@ const userSchema = new Schema({
     provider: { type: String, default: 'register' },
     cart: { type: mongoose.Schema.Types.ObjectId, ref: 'Cart' },
     phone: { type: Number, unique: true },
+    documents: { type: Array, default: [] },
+    last_connection: { type: Date, require: true },
     jwtToken: String
 }, { timestamps: true });
 

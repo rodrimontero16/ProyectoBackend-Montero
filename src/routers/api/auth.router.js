@@ -69,6 +69,8 @@ router.post('/login', async (req, res) => {
         }
         req.user = user;
         const token = tokenGenerator(user, user.cart);
+        const currentDate = new Date();
+        const userUpdate = await UsersControllers.updateById(user.id , { last_connection: currentDate });
         res
             .cookie('access_token', token, { maxAge: 1000*60*30, httpOnly: true, signed: true })
             .status(200)

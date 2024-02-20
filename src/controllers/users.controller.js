@@ -41,4 +41,7 @@ export default class UsersControllers {
         return UsersServices.deleteById(uid);
     };
     
+    static uploadFile (uid, typeFile, file){
+    
+    };
 }

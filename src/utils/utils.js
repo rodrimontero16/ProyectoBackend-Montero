@@ -4,6 +4,7 @@ import  JWT from 'jsonwebtoken';
 import { fileURLToPath } from 'url';
 import config from '../config/config.js';
 import { faker } from '@faker-js/faker';
+import multer from 'multer';
 
 
 //Ruta absoluta
@@ -92,3 +93,25 @@ export const generateProducts = () =>{
     };
 };
 
+const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        const { params: {typeFile}} = req;
+        let folderPath = null;
+        if (typeFile === 'profile'){
+            folderPath = path.join(__dirname, '..', '..', 'public', 'profiles' );
+        };
+        if (typeFile === 'product'){
+            folderPath = path.join(__dirname, '..', '..', 'public', 'products' );
+        };
+        if (typeFile === 'document'){
+            folderPath = path.join(__dirname, '..', '..', 'public', 'documents' );
+        }   
+        callback(null, folderPath);
+    },
+    filename: (req, file, callback) => {
+        const { user: {id} } = req;
+        callback(null, `${id}_${file.originalname}`)
+    }
+});
+
+export const uploader = multer({ storage });
