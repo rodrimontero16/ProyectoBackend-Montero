@@ -21,6 +21,20 @@
     <p>Correo: {{user.email}}</p>
     <p>Permisos: {{user.role}}</p>
 </article>
+<form action="/api/users/{{user.id}}/documents" method="POST" >
+
+    <label for="documentType">Elegí el documento a cargar:</label>
+    <select id="documentType" name="documentType">
+        <option name="documentType" value="profiles">Profile photo</option>
+        <option name="documentType" value="products">Products photo</option>
+        <option name="documentType" value="documents">DNI</option>
+        <option name="documentType" value="documents">Home adress</option>
+        <option name="documentType" value="documents">Account status</option>
+    </select>
+    <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf">
+
+    <button type="submit">Enviar</button>
+</form>
 <a href="#">
     <form method="POST" action="/api/users/premium/{{user.id}}">
         <button type="submit">Cambiar rol de usuario</button>

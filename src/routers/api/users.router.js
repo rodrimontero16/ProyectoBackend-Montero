@@ -20,18 +20,21 @@ router.post('/premium/:uid',
             }
 });
 
-router.post('/:uid/documents/:typeFile', 
+router.post('/:uid/documents/', 
     passport.authenticate('jwt', { session: false }),
     uploader.single('file'),
     async (req, res) =>{
         try {
-            const { user: {id}, file, typeFile } = req;
-            const user = await UsersControllers.uploadFile(id, typeFile, file);
-            res.status(500).json(user);
+            const { user: { id }, file, params: { documentType } } = req;
+            if (!file) {
+                return res.status(400).json('Se debe cargar al menos un documento.')
+            }
+            await UsersControllers.uploadFile(id, documentType, file);
+            res.status(204).end();
         } catch (error) {
-            console.error(error);
-            res.status(500).json('Error al subir el.');
+            
         }
+
 });
 
 

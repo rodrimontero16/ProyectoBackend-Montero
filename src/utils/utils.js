@@ -95,15 +95,16 @@ export const generateProducts = () =>{
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        const { params: {typeFile}} = req;
-        let folderPath = null;
-        if (typeFile === 'profile'){
+        let folderPath;
+        const documentType = req.body.documentType; 
+
+        if (documentType === 'profile'){
             folderPath = path.join(__dirname, '..', '..', 'public', 'profiles' );
         };
-        if (typeFile === 'product'){
+        if (documentType === 'product'){
             folderPath = path.join(__dirname, '..', '..', 'public', 'products' );
         };
-        if (typeFile === 'document'){
+        if (documentType === 'document'){
             folderPath = path.join(__dirname, '..', '..', 'public', 'documents' );
         }   
         callback(null, folderPath);

@@ -41,9 +41,13 @@ export default class UsersControllers {
         return UsersServices.deleteById(uid);
     };
     
-    static async uploadFile (uid, typeFile, file){
+    static async uploadFile (uid, documentType, file){
         const data = {};
-        if (typeFile === 'document'){
+        if (documentType === 'profile'){
+            Object.assign(data, { profiles: file.filename });
+        } else if (documentType === 'product'){
+            Object.assign(data, { products: file.filename });
+        } else {
             Object.assign(data, { documents: file.filename });
         }
         return UsersServices.updateById(uid, data)
