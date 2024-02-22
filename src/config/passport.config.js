@@ -9,7 +9,7 @@ import config from './config.js';
 const githubOptions = {
     clientID: config.github.clientID, 
     clientSecret: config.github.clientSecret, 
-    callbackURL: "http://localhost:8080/api/auth/github/callback", 
+    callbackURL: process.env.RAILWAY_ENV === 'production' ? "/api/auth/github/callback" : "http://localhost:8080/api/auth/github/callback", 
 }
 
 function cookieExtractor(req) {
