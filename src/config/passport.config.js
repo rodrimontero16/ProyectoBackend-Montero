@@ -9,7 +9,7 @@ import config from './config.js';
 const githubOptions = {
     clientID: config.github.clientID, 
     clientSecret: config.github.clientSecret, 
-    callbackURL: "api/auth/github/callback", 
+    callbackURL: "/api/auth/github/callback", 
 }
 
 function cookieExtractor(req) {
