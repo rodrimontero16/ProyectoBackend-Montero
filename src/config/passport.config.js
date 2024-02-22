@@ -6,10 +6,12 @@ import UserControllers from '../controllers/users.controller.js'
 import config from './config.js';
 
 
+const isProduction = process.env.RAILWAY_ENV === 'production';
+
 const githubOptions = {
     clientID: config.github.clientID, 
     clientSecret: config.github.clientSecret, 
-    callbackURL: process.env.RAILWAY_ENV === 'production' ? "/api/auth/github/callback" : "http://localhost:8080/api/auth/github/callback", 
+    callbackURL: isProduction ? "https://proyectobackend-montero-production.up.railway.app/api/auth/github/callback" : "http://localhost:8080/api/auth/github/callback",
 }
 
 function cookieExtractor(req) {
