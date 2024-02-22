@@ -12,7 +12,7 @@ export default {
         cookieSecret: process.env.COOKIE_SECRET
     },    
     github: {
-        clientId: process.env.CLIENTID,
+        clientID: process.env.CLIENTID,
         clientSecret: process.env.CLIENTSECRET
     },
     gmail: {
