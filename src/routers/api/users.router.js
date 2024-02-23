@@ -25,14 +25,16 @@ router.post('/:uid/documents/',
     uploader.single('file'),
     async (req, res) =>{
         try {
-            const { user: { id }, file, params: { documentType } } = req;
+            const { user: { id }, file } = req;
+            const { documentType } = req.body;
             if (!file) {
                 return res.status(400).json('Se debe cargar al menos un documento.')
             }
             await UsersControllers.uploadFile(id, documentType, file);
-            res.status(204).end();
+            res.status(204).redirect('/profile');
         } catch (error) {
-            
+            console.error('Error in route:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
         }
 
 });

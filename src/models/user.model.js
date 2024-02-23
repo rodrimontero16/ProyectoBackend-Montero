@@ -12,8 +12,7 @@ const userSchema = new Schema({
     phone: { type: Number, unique: true },
     documents: [{
         name: { type: String },
-        reference: { type: String },
-        documentType: { type: String }
+        reference: { type: String}
     }],
     last_connection: { type: Date },
     jwtToken: String

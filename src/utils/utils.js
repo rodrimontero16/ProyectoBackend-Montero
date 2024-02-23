@@ -104,9 +104,15 @@ const storage = multer.diskStorage({
         if (documentType === 'product'){
             folderPath = path.join(__dirname, '..', '..', 'public', 'products' );
         };
-        if (documentType === 'document'){
-            folderPath = path.join(__dirname, '..', '..', 'public', 'documents' );
+        if (documentType === 'dni'){
+            folderPath = path.join(__dirname, '..', '..', 'public', 'documents', 'DNI' );
         }   
+        if (documentType === 'home'){
+            folderPath = path.join(__dirname, '..', '..', 'public', 'documents', 'HomeAddress' );
+        } 
+        if (documentType === 'account'){
+            folderPath = path.join(__dirname, '..', '..', 'public', 'documents', 'AccountStatus' );
+        } 
         callback(null, folderPath);
     },
     filename: (req, file, callback) => {
