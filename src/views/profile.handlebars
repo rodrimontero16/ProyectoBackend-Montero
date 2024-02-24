@@ -19,17 +19,28 @@
     </header>
     <p>Nombre y apellido: {{user.fullName}}</p>
     <p>Correo: {{user.email}}</p>
-    <p>Permisos: {{user.role}}</p>
+    <p>Tipo de cuenta: {{user.role}}</p>
+    <p>Documentos cargados:
+    {{#if user.documents}}
+        <ul>
+            {{#each user.documents}}
+                <li>{{this.name}}</li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <p>No hay documentos cargados.</p>
+    {{/if}}
+    </p>
 </article>
 <form action="/api/users/{{user.id}}/documents" method="POST" enctype="multipart/form-data" >
     <label for="documentType">Elegí el documento a cargar:</label>
     <select id="documentType" name="documentType">
-        <option value="dni">DNI</option>s
-        <option value="home">Home address</option>
-        <option value="account">Account status</option>
+        <option value="DNI">DNI</option>s
+        <option value="HomeAddress">Home address</option>
+        <option value="AccountStatus">Account status</option>
     </select>
     <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf">
-    <button type="submit">Enviar</button>
+    <button type="submit" id="sendDocuments">Enviar</button>
 </form>
 <a href="#">
     <form method="POST" action="/api/users/premium/{{user.id}}">

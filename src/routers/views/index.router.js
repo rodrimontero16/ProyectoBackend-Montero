@@ -35,6 +35,8 @@ router.get('/profile', async (req, res) => {
     try {
         const token = req.signedCookies['access_token'];
         const user = await verifyToken(token);
+        const documents = user.documents;
+        console.log('documents', documents)
         res.render('profile', { style: 'login.css', titlePage: 'Profile', user, isAdmin: isAdmin(user.role) });
     } catch (error) {
         console.error(error);

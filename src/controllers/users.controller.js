@@ -42,16 +42,21 @@ export default class UsersControllers {
     };
     
     static async uploadFile (uid, documentType, file){
+        const user = await UsersServices.getById(uid);
+        const existingData = user.documents;
+        
         const data = {};
         if (documentType === 'profile') {
             data.profiles = [{ filename: file.filename }];
         } else if (documentType === 'product') {
             data.products = [{ filename: file.filename }];
         } else {
-            data.documents = [{
+            data.documents = [...existingData,
+                {                
                 name: documentType,
                 reference: file.path
-            }];
+                }
+            ];
         }
         return UsersServices.updateById(uid, data)
     };
