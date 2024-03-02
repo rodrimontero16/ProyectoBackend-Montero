@@ -5,6 +5,27 @@ import { authorizationMiddleware, uploader } from "../../utils/utils.js";
 
 const router = Router();
 
+router.get('/',
+    passport.authenticate('jwt', { session: false }),
+    authorizationMiddleware(['admin']),
+    async (req, res) => {
+        try {
+            const user = await UsersControllers.get();
+            const users = user.map(u => {
+                return {
+                    userID: u.id.toString(),
+                    userName: u.fullName,
+                    userEmail: u.email,
+                    userRole: u.role
+                };
+            })
+            res.render('usersList', {users, titlePage: 'Lista de usuarios'})
+        } catch (error) {
+            console.log(error)
+            req.logger.error('Error al mostrar los usuarios')
+        }
+    })
+
 router.post('/premium/:uid', 
     passport.authenticate('jwt', { session: false }),
     authorizationMiddleware(['user','premium']),
@@ -31,7 +52,7 @@ router.post('/:uid/documents/',
                 return res.status(400).json('Se debe cargar al menos un documento.')
             }
             await UsersControllers.uploadFile(id, documentType, file);
-            res.status(204).redirect('/profile');
+            res.status(204).clearCookie('access_token').redirect('/login');
         } catch (error) {
             console.error('Error in route:', error);
             res.status(500).json({ error: 'Internal Server Error' });
