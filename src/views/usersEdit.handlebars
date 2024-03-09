@@ -1,3 +1,15 @@
+<nav>
+    <ul>
+        <li><strong>Ecommerce</strong></li>
+    </ul>
+    <ul>
+        <li><a href="/api/products">Productos</a></li>
+        <li><a href="/api/carts">Carritos</a></li>
+        <li><a href="/products">Tienda</a></li>
+        <li><a href="/profile">Perfil</a></li>
+        <li><a href="/api/auth/logout">Cerrar sesión</a></li>
+    </ul>
+</nav>
 <div>
     <h2>Configuracion de usuario: {{userName}}  {{userLastName}}</h2>
 </div>
@@ -13,13 +25,13 @@
             </select>
         </th>
         <th>
-            <button data-user-id="{{userID}}" class="btn-confirmar">Confirmar</button>
+            <button data-user-id="{{userID}}" class="btn-user-edit">Confirmar</button>
         </th>                
     </table>
 </section>             
 <section>
         <h4>Eliminar usuario</h4>
-        <button type="submit">Eliminar usuario</button>
+        <button data-user-id="{{userID}}" class="btn-user-delete">Eliminar usuario</button>
 </section>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>

@@ -37,7 +37,7 @@ export default class UsersControllers {
         return UsersServices.updateById(uid, payload)
     };
 
-    static deleteById(uid){
+    static async deleteById(uid){
         return UsersServices.deleteById(uid);
     };
     

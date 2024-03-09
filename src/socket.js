@@ -101,6 +101,11 @@ export const init = (httpServer) => {
             await UsersControllers.updateById(userID, {role: selectedRole});
             user.save();
             socketClient.emit('user-update', user)
+        });
+
+        socketClient.on('user-delete', async (userID) => {
+            await UsersControllers.deleteById(userID);
+            socketClient.emit('user-delete-confirm');
         })
     });
 };

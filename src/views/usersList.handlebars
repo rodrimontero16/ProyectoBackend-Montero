@@ -3,8 +3,8 @@
         <li><strong>Ecommerce</strong></li>
     </ul>
     <ul>
-        <li><a href="/api/products">ProductsManager</a></li>
-        <li><a href="/api/carts">CartsManager</a></li>
+        <li><a href="/api/products">Productos</a></li>
+        <li><a href="/api/carts">Carritos</a></li>
         <li><a href="/products">Tienda</a></li>
         <li><a href="/profile">Perfil</a></li>
         <li><a href="/api/auth/logout">Cerrar sesión</a></li>
@@ -30,7 +30,9 @@
                         <td>{{userEmail}}</td>
                         <td>{{userRole}}</td>
                         <td>
-                            <button class="edit-user" id="{{userID}}">⚙️</button>
+                            <a href="/api/users/{{userID}}">
+                                <button class="edit-user" id="{{userID}}">⚙️</button>
+                            </a>
                         </td>
                     </tr>
                 {{/each}}
