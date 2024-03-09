@@ -26,9 +26,30 @@ router.get('/',
         }
     })
 
+    router.get('/:uid',
+    passport.authenticate('jwt', { session: false }),
+    authorizationMiddleware(['admin']),
+    async (req, res) => {
+        try {
+            const { uid } = req.params;
+            const user = await UsersControllers.getById(uid);
+            const userName = user.first_name;
+            const userLastName = user.last_name;
+            const userID = user._id; 
+            const userRole = user.role;
+
+            res.render('usersEdit', {userName, userLastName , userID, userRole,  titlePage: 'Configuracion de usuario'})
+        } catch (error) {
+            console.log(error)
+            req.logger.error('Error al mostrar los usuarios')
+        }
+    })
+
+
+
 router.post('/premium/:uid', 
     passport.authenticate('jwt', { session: false }),
-    authorizationMiddleware(['user','premium']),
+    authorizationMiddleware(['user','premium', 'admin']),
     async (req, res) =>{
             try {
                 const { uid } = req.params;

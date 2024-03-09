@@ -19,7 +19,7 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
-                    <th scope="col">Eliminar/Editar</th>
+                    <th scope="col">Configurar</th>
                 </tr>
             </thead>
             <tbody id="tableCarts">
@@ -30,13 +30,12 @@
                         <td>{{userEmail}}</td>
                         <td>{{userRole}}</td>
                         <td>
-                            <button id="{{userID}}">❌</button>
-                            <a href="/api/carts/{{userID}}">
-                                <button id="{{userID}}">🖋️</button>
-                            </a>
+                            <button class="edit-user" id="{{userID}}">⚙️</button>
                         </td>
                     </tr>
                 {{/each}}
             </tbody>
         </table>
 </div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/userManager.js"></script>

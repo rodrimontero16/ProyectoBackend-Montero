@@ -3,6 +3,7 @@ import { __dirname } from './utils/utils.js';
 import ProductsControllers from './controllers/product.controller.js';
 import CartsController from './controllers/carts.controller.js';
 import mongoose from 'mongoose';
+import UsersControllers from './controllers/users.controller.js';
 
 
 let io;
@@ -94,5 +95,12 @@ export const init = (httpServer) => {
                 console.error('Error al crear el carrito', error.message);3
             }
         });
+
+        socketClient.on('user-role-change', async ({selectedRole, userID}) =>{
+            const user = await UsersControllers.getById(userID)
+            await UsersControllers.updateById(userID, {role: selectedRole});
+            user.save();
+            socketClient.emit('user-update', user)
+        })
     });
 };
