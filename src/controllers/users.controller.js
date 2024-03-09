@@ -12,6 +12,11 @@ export default class UsersControllers {
         return UsersServices.get(filter)
     };
 
+    static async getAll(){
+        return UsersServices.get()
+    }
+    
+
     static async getOne(criteria){
         const user = await UsersServices.getOne(criteria);
         return user ? user : null;

@@ -24,9 +24,9 @@ router.get('/',
             console.log(error)
             req.logger.error('Error al mostrar los usuarios')
         }
-    })
+    });
 
-    router.get('/:uid',
+router.get('/:uid',
     passport.authenticate('jwt', { session: false }),
     authorizationMiddleware(['admin']),
     async (req, res) => {
@@ -44,7 +44,6 @@ router.get('/',
             req.logger.error('Error al mostrar los usuarios')
         }
     })
-
 
 
 router.post('/premium/:uid', 
@@ -78,8 +77,10 @@ router.post('/:uid/documents/',
             console.error('Error in route:', error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
-
 });
+
+
+
 
 
 export default router;

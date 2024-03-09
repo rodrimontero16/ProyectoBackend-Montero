@@ -4,6 +4,7 @@
     const userRoleSelect = document.getElementById('user-role-filter');
     const userRoleChange = document.getElementsByClassName('btn-user-edit');
     const userDelete = document.getElementsByClassName('btn-user-delete');
+    const usersInactiveDelete = document.getElementById('delete-user-inactive')
 
     for (let button of userRoleChange) {
         button.addEventListener('click', (event) => {
@@ -21,6 +22,10 @@
             socket.emit('user-delete', userID);
         });
     }
+
+    usersInactiveDelete.addEventListener('click', () => {
+        socket.emit('delete-users-inactive');
+    })
 
     socket.on('user-delete-confirm', () =>{
         Swal.fire({

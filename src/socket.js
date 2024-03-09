@@ -4,7 +4,7 @@ import ProductsControllers from './controllers/product.controller.js';
 import CartsController from './controllers/carts.controller.js';
 import mongoose from 'mongoose';
 import UsersControllers from './controllers/users.controller.js';
-
+import moment from 'moment';
 
 let io;
 
@@ -106,6 +106,24 @@ export const init = (httpServer) => {
         socketClient.on('user-delete', async (userID) => {
             await UsersControllers.deleteById(userID);
             socketClient.emit('user-delete-confirm');
+        });
+
+        socketClient.on('delete-users-inactive', async () =>{
+            try {
+                const allUsers = await UsersControllers.getAll();
+                const currentDateTime = new Date();
+                const inactivityLimit = moment(currentDateTime).subtract(2, 'minutes');
+                const usersToDelete = allUsers.filter(user => {
+                    return user.role === 'user' && moment(user.last_connection).isBefore(inactivityLimit);
+                });
+                const deleteUsers = usersToDelete.map(u => UsersControllers.deleteById(u._id));
+                await Promise.all(deleteUsers);
+                console.log('Usuarios inactivos eliminados correctamente.');
+            } catch (error) {
+                console.error(error);
+                console.log('Error al eliminar los usuarios')
+            }
+
         })
     });
 };
