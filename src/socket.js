@@ -116,14 +116,18 @@ export const init = (httpServer) => {
                 const usersToDelete = allUsers.filter(user => {
                     return user.role === 'user' && moment(user.last_connection).isBefore(inactivityLimit);
                 });
-                const deleteUsers = usersToDelete.map(u => UsersControllers.deleteById(u._id));
-                await Promise.all(deleteUsers);
-                console.log('Usuarios inactivos eliminados correctamente.');
+                if (usersToDelete.length === 0){
+                    socketClient.emit('no-user-delete')
+                } else {
+                    for (const userToDelete of usersToDelete) {
+                        await UsersControllers.deleteById(userToDelete.id); 
+                    }
+                    socketClient.emit('user-delete-confirm')
+                }
             } catch (error) {
                 console.error(error);
                 console.log('Error al eliminar los usuarios')
             }
-
         })
     });
 };

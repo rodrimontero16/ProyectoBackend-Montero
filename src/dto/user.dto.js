@@ -7,6 +7,7 @@ export default class UserDTO{
             this.password = user.password;
             this.role = user.role;
             this.documents = user.documents;
+            this.last_connection = user.last_connection;
         } else {
             console.log('User is null')
         }

@@ -36,6 +36,7 @@ router.post('/register', async (req, res) =>{
             email,
             age,
             password: createHash(password),
+            last_connection:new Date()
         });
         const cart = await CartsController.create({user: newUser.id, products: []});
         newUser.cart = cart._id;

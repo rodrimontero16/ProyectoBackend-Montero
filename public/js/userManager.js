@@ -27,12 +27,21 @@
         socket.emit('delete-users-inactive');
     })
 
+    socket.on('no-user-delete', () =>{
+        Swal.fire({
+            icon: 'success',
+            title: 'No hay usuarios inactivos ⏳',
+        }).then(() =>{
+            location.reload();
+        })
+    })
+
     socket.on('user-delete-confirm', () =>{
         Swal.fire({
             icon: 'success',
-            title: 'Usuario eliminado correcamente ❌',
+            title: 'Usuarios eliminados correcamente ❌',
         }).then(() =>{
-            window.location.href = '/api/users';
+            location.reload();
         })
     })
 
