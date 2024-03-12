@@ -19,7 +19,7 @@ router.get('/',
                     userRole: u.role
                 };
             })
-            res.render('usersList', {users, titlePage: 'Lista de usuarios'})
+            res.render('usersList', {users, titlePage: 'Lista de usuarios', style: 'users.css'})
         } catch (error) {
             console.log(error)
             req.logger.error('Error al mostrar los usuarios')
@@ -38,7 +38,7 @@ router.get('/:uid',
             const userID = user._id; 
             const userRole = user.role;
 
-            res.render('usersEdit', {userName, userLastName , userID, userRole,  titlePage: 'Configuracion de usuario'})
+            res.render('usersEdit', {userName, userLastName , userID, userRole,  titlePage: 'Configuracion de usuario', style: 'users.css'})
         } catch (error) {
             console.log(error)
             req.logger.error('Error al mostrar los usuarios')

@@ -5,6 +5,7 @@
     <ul>
         <li><a href="/api/products">Productos</a></li>
         <li><a href="/api/carts">Carritos</a></li>
+        <li><a href="/api/users">Lista de usuarios</a></li>
         <li><a href="/products">Tienda</a></li>
         <li><a href="/profile">Perfil</a></li>
         <li><a href="/api/auth/logout">Cerrar sesión</a></li>
@@ -25,7 +26,7 @@
             </select>
         </th>
         <th>
-            <button data-user-id="{{userID}}" class="btn-user-edit">Confirmar</button>
+            <button data-user-id="{{userID}}" class="userEdit">Confirmar</button>
         </th>                
     </table>
 </section>             
@@ -35,4 +36,4 @@
 </section>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/userManager.js"></script>
+<script src="/js/userEdit.js"></script>

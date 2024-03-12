@@ -5,6 +5,7 @@ import CartsController from './controllers/carts.controller.js';
 import mongoose from 'mongoose';
 import UsersControllers from './controllers/users.controller.js';
 import moment from 'moment';
+import emailService from './services/email.service.js';
 
 let io;
 
@@ -120,6 +121,14 @@ export const init = (httpServer) => {
                     socketClient.emit('no-user-delete')
                 } else {
                     for (const userToDelete of usersToDelete) {
+                        const result = await emailService.sendEmail(
+                            userToDelete.email, 
+                            'Usuario eliminado',
+                            `<div>
+                                <p>Su usuario ha sido eliminado por inactividad. Para volver a utilizar nuestro sitio web deberá volver a registrarse. Muchas gracias</p>
+                            </div>
+                            `
+                        );
                         await UsersControllers.deleteById(userToDelete.id); 
                     }
                     socketClient.emit('user-delete-confirm')
